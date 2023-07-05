@@ -20,6 +20,22 @@ const getLayouts = () => {
   return layoutList
 }
 
+const getBooks = () => {
+  const bookPath = path.join(root, "data", "books")
+  const bookList = fs.readdirSync(bookPath).map((filename) => path.parse(filename).name)
+  return bookList
+}
+
+const getThemes = () => {
+  const themePath = path.join(root, "themes")
+  const themeList = fs
+    .readdirSync(themePath)
+    .map((filename) => path.parse(filename).name)
+    .filter((file) => file.toLowerCase().includes("dark"))
+  return themeList
+}
+
+
 const genFrontMatter = (answers) => {
   let d = new Date()
   const date = [
