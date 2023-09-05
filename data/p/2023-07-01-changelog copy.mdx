@@ -1,0 +1,49 @@
+---
+title: "Axolo changelog - July/August 2023"
+date: "2023-09-05"
+tags: ["changelog"]
+draft: false
+summary: "We've unveiled new features to enhance user experience, including the ability to mention Slack usernames during review requests and cater to unique enterprise customer needs. Security has been bolstered with consistent email usage across Slack and GitHub. Enterprise users can now manage multiple organizations with ease, and our feedback system for code review has been introduced. Additionally, we've expanded support for GitHub enterprise with proxy, streamlined engineer imports, and provided more control over PR titles and deletions. We've also refined our onboarding process and addressed a range of bugs to ensure a smoother experience."
+---
+
+## ✨ NEW
+
+- Mention the Slack username of reviewer when a second review request is sent.
+- Ability to refresh Axolo AI.
+- Handle special usecase for enterprise customer.
+- Ability to enforce user to have same emails in Slack and GitHub to avoid impersonation.
+- Handle query for engineers for multi orgs accounts.
+- Handling same engineers for multiple GitHub organizations.
+- Enabling a feedback system for code review assistant (beta)
+- Code review guidelines powered by GPT rolled out for beta users
+- Enterprise user can now handle multiple orgs in Axolo
+- Built a notification system to send updates about Axolo to users
+- Handling multiple organizations within Enterprise customers available
+- Support for GitHub enterprise with proxy
+- Ability to import engineers in batch from app.axolo.co
+- Ability to add the organization name in PR title for Enterprise Customers
+- Ability to delete PR in our DB upon merge
+- Created a new service to force a refresh on GitLab token if it fails
+
+## 🔨 IMPROVEMENT
+
+- Better handling of errors during GitHub Self Hosted onboarding.
+- Changed the way we handle stripe webhooks.
+- We improved the ability to enable features from team channels for Enterprise Users.
+- Improved the way we handle Stripe webhooks.
+- Improved the ability to enforce users to have same emails in Slack and GitHub to avoid impersonation.
+- Improved the way we handle queries for engineers for multi-orgs accounts.
+
+## 🐞 FIX
+
+- We fixed a bug for notifications for new onboarded collaborators.
+- We fixed a bug where links inside code comments were getting added brackets.
+- We fixed a bug with team channels if organizations archived/delete them manually from Slack.
+- We fixed a bug where we saved only members of GitLab groups and not projects.
+- We fixed an error for GitLab auto creation of repository upon webhook.
+- We fixed a bug to query pull request.
+- We fixed an error while switching a PR from draft to ready for review in team channels.
+- We fixed a bug where Axolo was not converting markdown in code review comment from GitHub and GitLab.
+- We fixed an error where GitHub admin would see an error when accepting installation.
+- We fixed a bug of a html injection with a > inside a PR title.
+- We fixed a bug where Axolo deleted the image preview of GitHub images after an edit.
