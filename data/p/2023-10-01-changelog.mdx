@@ -1,0 +1,28 @@
+---
+title: "Axolo changelog - September 2023"
+date: "2023-10-01"
+tags: ["changelog"]
+draft: false
+summary: "Axolo has enhanced its platform with admin access requests for engineers, revamped transactional emails, personalized Slack notifications, and a new usage-based free plan. Security for the admin panel and API has been strengthened, user login and notification systems improved, and a bug affecting new user welcome emails has been fixed."
+---
+
+✨ NEW:
+
+- Enabled engineers to ask admin access on the billing page after reaching the starter plan limit
+- Updated some of our transactional emails to Customer.io
+- Better Slack toast notifications for failed tests
+- Update the stand-up notification with personalization, you can now choose which OR status Axolo sends in Slack
+- Update our free plan from a seat-based pricing to a usage-based pricing up to 50 PR per month
+- Automatically offer subgroup onboarding possibility for users without any ownership on main GitLab groups
+- Add enhanced security for our admin panel
+
+🔨 IMPROVEMENT:
+
+- Better handling wrong workspace login for our users
+- Enhanced security for our API using VPN filtered routes
+- Update standup and /axolo command notification with PR where someone from the team is also reviewer, not only author
+- Improved the way we identify GitLab bots
+
+🐞 FIX:
+
+- Fix bug where the email welcoming new users was not sent
