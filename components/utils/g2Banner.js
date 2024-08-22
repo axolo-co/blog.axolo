@@ -25,7 +25,7 @@ const G2Banner = ({ isDarkBackground = false }) => {
             <Image
               width={770}
               height={1000}
-              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-codereview.png"
+              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-codereview-2024.png"
               alt="Peer code review - Axolo awarded High Performer Spring 2023"
             />
           </a>
@@ -76,8 +76,8 @@ const G2Banner = ({ isDarkBackground = false }) => {
             <Image
               width={770}
               height={1000}
-              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-smallbusiness.png"
-              alt="Peer code review - Axolo awarded High Performer Small Business Spring 2023"
+              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-smallbusiness-2024.png"
+              alt="Peer code review - Axolo awarded High Performer Small Business 2024"
             />
           </a>
         </div>
