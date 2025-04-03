@@ -1,6 +1,7 @@
 ---
 title: "How to open a pull request"
 date: "2021-11-03"
+lastmod: "2025-04-03"
 tags: ["pull request guide"]
 draft: false
 summary: "In Part II of our Pull Request Guide, we will dive into the processes of opening to merging a pull request and the best advices and integrations to master your code reviews."
@@ -14,9 +15,9 @@ Pull requests and code reviews are workflows used in high-performing engineering
 
 ### What are draft GitHub pull requests?
 
-When you're on a GitHub paid plan, engineers can open their pull requests as drafts. Draft pull request helps in indicating other people what you are working on while letting them now it isn’t finished yet. It also enables engineers to work on their branch, see the differences with the base branch in real-time and prepare the pull request content for their peers. Usually, they will be able to update the first comment to explain the reasons the pull request was developed, how the developer decided to proceed, and add screenshots if the changes are visible.
+When you're on a GitHub paid plan, engineers can open their pull requests as drafts. A GitHub draft PR helps in indicating other people what you are working on while letting them know it isn't finished yet. If you're wondering how to create a draft PR, it's as simple as selecting the "Create draft pull request" option when opening a new PR. The GitHub draft PR feature is particularly useful for early feedback. It also enables engineers to work on their branch, see the differences with the base branch in real-time and prepare the pull request content for their peers. Usually, they will be able to update the first comment to explain the reasons the pull request was developed, how the developer decided to proceed, and add screenshots if the changes are visible.
 
-From a draft pull request, you can start the conversation around the code and let your peers know that the code is not yet ready for review.
+From a GitHub draft pull request, you can start the conversation around the code and let your peers know that the code is not yet ready for review. When you're ready to convert draft PR to PR, you can do so with a single click. The process to GitHub change PR from draft to open is straightforward and can be done through the UI or API. You can also convert PR to draft if you need to make additional changes after marking it ready for review. The GitHub draft PR workflow is designed to be flexible and user-friendly.
 
 <div style={{ display: "flex", justifyContent: "center" }}>
   <img
@@ -28,7 +29,7 @@ From a draft pull request, you can start the conversation around the code and le
 
 ### My pull request is ready for review
 
-When the code is ready to be reviewed, the developer can convert its draft pull request to ready for review, or open the pull request if it was not a draft. At that stage, your work is done and you're awaiting a review from one of your peers.
+When the code is ready to be reviewed, the developer can convert draft PR to PR, or open the pull request if it was not a draft. This process of converting PR to draft and back is straightforward in GitHub. At that stage, your work is done and you're awaiting a review from one of your peers. Whether you're working with an open PR or need to convert draft PR to PR, the process remains consistent. The GitHub draft pull request workflow is designed to be flexible and user-friendly. You can convert PR to draft at any time if you need to make additional changes.
 
 When the reviewer is ready, he will be able to open the pull request, see from the initial comments the context of the pull request, and from the diff page, the changes made to the code base.
 
@@ -43,8 +44,6 @@ When reviewers see things that should be changed, they should write a specific c
     style={{ maxWidth: "650px" }}
   />
 </div>
-
-Learn more about best practices concerning suggesting changes in our dedicated article [How to review code in GitHub](https://axolo.co/blog/p/part-4-how-to-review-code-in-github)
 
 ### How to handle conflict in pull requests?
 
@@ -132,7 +131,7 @@ Your conflict is now resolved!
 
 ## How to approve GitHub pull requests?
 
-When reviewers think that the pull request is ready to be merged, they approve the pull request from the GitHub UI. This will let the creator of the pull request know that the base branch can safely receive the changes from this branch.
+When reviewers think that the pull request is ready to be merged, they approve the pull request from the GitHub UI. This will let the creator of the pull request know that the base branch can safely receive the changes from this branch. If you're wondering how to approve a pull request in GitHub, it's as simple as clicking the approve button in the review section. The GitHub API pull request endpoints can also be used to automate this process.
 
 Usually, we leave a master comment saying **LGTM** (Looks Good To Me).
 
@@ -156,7 +155,7 @@ There are three possibilities when merging a pull request:
 
 ### Why do we close GitHub pull requests?
 
-If the changes proposed in a pull request are no longer needed, or if a solution has been found in another branch, you can decide to close a pull request to prevent the change from affecting your base branch.
+If the changes proposed in a pull request are no longer needed, or if a solution has been found in another branch, you can decide to close pull request to prevent the change from affecting your base branch. When you close pull request, it's important to provide a clear explanation of why the changes are no longer needed. The ability to close pull request is an important part of maintaining a clean repository. You can also use the GitHub API pull request functionality to programmatically close pull requests.
 
 <div style={{ display: "flex", justifyContent: "center" }}>
   <img
@@ -174,7 +173,7 @@ There are two main reasons to use stacked pull requests:
 
 #### To split larges pull requests into small and coherent units
 
-As we detailed it in our section [Principles of a good code review](https://axolo.co/blog/p/part-4-how-to-review-code-in-github#principles-of-a-good-code-review), _"one pull request should focus only one task"_. Splitting a large pull request into small and coherent units will help both the author of the PR to develop it, and the reviewer to understand what the PR is about.
+As we detailed it in our section [Principles of a good code review](https://axolo.co/blog/p/part-4-how-to-review-code-in-github#principles-of-a-good-code-review), _"one pull request should focus only one task"_. Splitting a large pull request into small and coherent units will help both the author of the PR to develop it, and the reviewer to understand what the PR is about. For more information on managing stacked PRs effectively, check out our guide on [managing stacked PRs](https://axolo.co/blog/p/managing-stacked-pr).
 
 #### To enable two engineers to work on the same feature
 
@@ -232,7 +231,7 @@ From there, you can checkout your new branch to reflect the changes between `gen
 
 ### GitHub pull request best practices
 
-You can find here some general examples to follow for handling pull requests. If you wish to learn more about the best way to organize and handle code review, please go to our dedicated section: [How to review code in GitHub](https://axolo.co/blog/p/part-4-how-to-review-code-in-github).
+You can find here some general examples to follow for handling pull requests. If you wish to learn more about the best way to organize and handle code review, please go to our dedicated section: [How to review code in GitHub](https://axolo.co/blog/p/part-4-how-to-review-code-in-github). For more comprehensive information about code review practices, visit our [code review guide](https://axolo.co/).
 
 #### Why should I care?
 
@@ -313,7 +312,7 @@ It's easy to spot errors but take the time to congratulate good logic.
 
 ### What are Github pull request status checks?
 
-Pull request checks enable you to know if your commits meet the minimum conditions you need to pass to merge your branch to the base branch. Checks are repository-wide and mandatory in today's engineering teams to follow comment CI/CD practices.
+Pull request checks enable you to know if your commits meet the minimum conditions you need to pass to merge your branch to the base branch. You can add commit to pull request as needed, and the checks will run automatically. Whether you're working with an open PR or need to convert draft PR to PR, these checks ensure code quality. You can also add commit to pull request through the GitHub API pull request endpoints. The GitHub draft PR feature helps teams maintain code quality throughout the development process. Checks are repository-wide and mandatory in today's engineering teams to follow comment CI/CD practices.
 
 Each pull request has a **Checks** tab where you can view details of build outputs from status checks and rerun failed checks.
 
@@ -327,16 +326,16 @@ There are hundreds of external applications on the GitHub marketplace to automat
 
 ### Use the GitHub pull request command line
 
-GitHub developed its command line. It brings pull requests and issues to your terminal next to where you're already working. The GitHub pull request commands are a good way to quickly create, checkout, convert a pull request to ready for review, merge, and many other common actions.
+GitHub developed its command line. It brings pull requests and issues to your terminal next to where you're already working. The GitHub pull request commands are a good way to quickly create, checkout, convert a pull request to ready for review, merge, and many other common actions. You can also use the GitHub API pull request endpoints to automate these processes, including how to create a draft PR or convert draft PR to PR programmatically. The GitHub API pull request functionality is particularly useful for teams looking to automate their workflow. For more information on optimizing your GitHub pull request workflow, check out our article on [why your pull requests are taking forever](https://axolo.co/blog/p/why-your-pull-requests-are-taking-forever).
 
 GitHub CLI is available for iOS, Windows and Linux users. More information about the installation of the GitHub CLI <a
             href=" https://github.com/cli/cli#installation"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             target="_blank">can be found in the open-source project.</a>
 
 ### Handle GitHub pull request notifications
 
-There are four ways to stay up to date with GitHub pull requests notifications.
+There are four ways to stay up to date with GitHub pull requests notifications. Whether you're working with an open PR or a GitHub draft pull request, staying informed about changes is crucial. The GitHub draft PR feature helps teams stay organized and maintain clear communication throughout the development process. The GitHub change PR from draft to open process is designed to be seamless and intuitive.
 
 #### Receive your pull request notifications by emails
 
@@ -348,7 +347,7 @@ If you spend your day in GitHub, you can find your recent notification within th
 
 #### Integrate GitHub pull requests with third-party apps
 
-There are alternative ways to receive notifications from GitHub pull requests in the GitHub marketplace. We wrote a [detailed article on the best GitHub-Slack integrations](https://blog.axolo.co/blog/p/top-5-github-pull-request-slack-integration) on our blog but you can discover other applications on the marketplace directly.
+There are alternative ways to receive notifications from GitHub pull requests in the GitHub marketplace. We wrote a [detailed article on the best GitHub-Slack integrations](https://blog.axolo.co/blog/p/top-5-github-pull-request-slack-integration) on our blog but you can discover other applications on the marketplace directly. For more information about integrating GitHub with Slack, check out our [GitHub Slack integration guide](https://axolo.co/blog/p/top-5-github-pull-request-slack-integration).
 
 #### Develop your workflows with the GitHub API
 
