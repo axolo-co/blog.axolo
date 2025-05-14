@@ -3,7 +3,7 @@ import Image from "next/image"
 import buildNavigation from "./buildNavigation"
 import { FooterLinks } from "./footerLinks"
 import classNames from "../utils/classNames"
-
+import Link from "next/link"
 export default function FooterAxolo({ hostingTool = "GitHub", domain = "axolo" }) {
   const navigation = buildNavigation({ domain, hostingTool })
 
@@ -17,7 +17,7 @@ export default function FooterAxolo({ hostingTool = "GitHub", domain = "axolo" }
         <div className="border-t border-gray-200 pb-8 dark:border-gray-700" />
         <div className="md:grid md:grid-cols-1 lg:grid-cols-7 lg:gap-8 ">
           <div className="row-start-2 mt-8 space-y-8 lg:col-span-3 lg:row-start-1 lg:mt-0 ">
-            <div className="flex ">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
               <a href="https://axolo.co" target="_blank" rel="noopener noreferrer">
                 <Image
                   width={150}
@@ -37,6 +37,16 @@ export default function FooterAxolo({ hostingTool = "GitHub", domain = "axolo" }
               <span className="sm:hidden">On a mission to boost engineers' productivity.</span>
               Created by developers, for developers.
             </p>
+          </div>
+          <div className="mt-4 sm:mt-0 lg:col-start-7">
+            <a href="https://axolo.co/security" target="_blank" rel="noopener noreferrer">
+              <Image
+                width={150}
+                height={150}
+                src="/blog/static/images/security/soc2.webp"
+                alt="Axolo is SOC 2 Compliant"
+              />
+            </a>
           </div>
         </div>
         <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-400">
