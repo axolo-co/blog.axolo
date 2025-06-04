@@ -7,13 +7,16 @@
 
 # testing
 /coverage
+.yarn/
+
 
 # next.js
 /.next/
 /out/
 public/sitemap.xml
 .vercel
-
+.pnp.cjs
+.pnp.loader.mjs
 # production
 /build
 *.xml
