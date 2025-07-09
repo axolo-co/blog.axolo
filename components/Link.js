@@ -9,10 +9,8 @@ const CustomLink = ({ href, children, className, "aria-label": ariaLabel, ...res
   if (isInternalLink) {
     // For Next.js 13+, we can directly pass className and other props to Link
     return (
-      <Link href={href} className={className} aria-label={ariaLabel}>
-        <a className={className} aria-label={ariaLabel}>
-          {children}
-        </a>
+      <Link href={href} className={className} aria-label={ariaLabel} {...rest}>
+        {children}
       </Link>
     )
   }
