@@ -1,0 +1,221 @@
+---
+title: "Pull Request Best Practices: How to Create Great Pull Requests?"
+date: "2025-07-08"
+lastmod: "2025-07-08"
+tags: ["pull request", "best practices"]
+draft: false
+summary: "Learn how to create clear, effective pull requests that speed up code reviews, reduce bugs, and improve team collaboration with these proven best practices."
+image: "/blog/static/images/pr-best-practices/PullRequestBestPractices.jpg"
+---
+
+
+If you've worked on a team using GitHub, chances are you've created a pull request before. And if you've ever had to review one that was too big, too vague, or just plain confusing — you know how frustrating the process can be.
+
+Pull requests are meant to make collaboration easier. But when done poorly, they slow everything down. On the flip side, a well-crafted pull request can speed up reviews, reduce bugs, and make life easier for everyone on the team.
+
+In this article, we'll walk through the basics of what a pull request is, the mistakes to avoid, and some simple best practices to help you write pull requests your teammates will actually enjoy reviewing. We'll also look at why using a Pull Request template can make a big difference.
+
+<TOCInline toc={props.toc} toHeading={2} asDisclosure />
+
+## What Is a Pull Request, Really?
+
+At its core, a pull request - or PR for short - is a way for teams of developers working on GitHub to propose changes to a codebase. 
+
+It's like you're saying: "Hey, I made some updates — can someone take a look before we merge this into the main branch?"
+
+Most teams use PRs to:
+- [x] Review code before it's merged
+- [x] Discuss changes with the team
+- [x] Catch bugs early
+- [x] Keep a clear history of what's been done and why (especially for Trunk Based Development)
+
+It's a moment to pause and ask: Is this the right change? Does it make sense? Does it break anything?
+
+But PRs are more than just a checkbox before merging. They're part of how your team communicates.
+
+<CTABanner type="try" />
+
+## Common PR Mistakes (That We've All Made)
+
+Even seasoned developers slip into bad PR habits now and then. Here are a few that come up a lot:
+
+### 1. The Mega PR 
+This one's a classic. You've been working on a feature for a week or two, and you open a PR with hundreds (or thousands) of lines changed. It's overwhelming for reviewers and often leads to delays or missed issues.
+
+**How to fix it:** Try to break up your work into smaller, focused pull requests.
+
+### 2. The Mystery PR
+You open a PR titled "fixes" or "updates" with no description. Reviewers are left guessing: What does this do? Why was it needed? Where do I even start?
+
+**How to fix it:** A good title and a short explanation go a long way.
+
+### 3. No Links to Issues or Tasks
+When you don't link to the related issue or ticket, reviewers lack context. They may not understand the reason behind your changes.
+
+**How to fix it:** Reference the issue number or task ID in the description.
+
+### 4. Not Giving Reviewers What They Need
+Sometimes a PR doesn't explain what was changed or how to test it. Reviewers waste time trying to figure it out.
+
+**How to fix it:** Add context, test steps, or screenshots when needed.
+
+### 5. Ignoring Failing Checks
+If the CI pipeline is red, your PR isn't ready to review. Period.
+
+**How to fix it:** Always make sure your code builds and passes tests before assigning reviewers.
+
+### 6. Not Reviewing Your Own Code
+Opening a PR before checking your own work puts more burden on your teammates.
+
+**How to fix it:** Read through your code like someone else wrote it. You'll catch a lot.
+
+<ImageContainer
+  alt="pull request best practices and bad habits"
+  src="/blog/static/images/pr-best-practices/illu1.png"
+  classNameDiv="mx-10"
+  classNameImage=""
+  width={5691 / 2}
+  height={3791 / 2 }
+/>
+
+
+## So, What Makes a Good Pull Request?
+
+Writing a solid pull request isn't about perfection — it's about making life easier for the person reviewing your code. Great PRs are clear, scoped, and collaborative. Here's how you can get there:
+
+### 1. Keep It Focused
+A focused pull request is easier to review, test, and merge. Try to limit each PR to one task, bug fix, or feature.
+
+Instead of combining a UI redesign and an API refactor, split them. This improves clarity, reduces merge conflicts, and helps your team give better feedback.
+
+**Example:** If you're adding a new user authentication method, that's one PR. Refactoring unrelated UI components? That should go in a separate one.
+
+### 2. Give It a Clear Title and Description
+A good PR title and description act like the cover letter to your code. Don't just describe what you did — explain why you did it. Context matters.
+
+**Example:**
+```
+Title: Add retry mechanism to payment service API calls
+
+Why:
+Some API calls to our third-party payment provider were failing intermittently. This adds automatic retries with exponential backoff to reduce customer impact.
+
+What Changed:
+- Added retry logic using axios-retry
+- Configured max retries to 3 with 1s base delay
+- Updated tests to simulate transient failure scenarios
+
+How to test:
+- Simulate network flakiness (e.g., using a mock proxy)
+- Confirm the retry logic kicks in and final success/failure is logged
+```
+
+### 3. Use a Pull Request Template
+A <a href="https://axolo.co/blog/p/part-3-github-pull-request-template">pull request template</a> standardizes how your team creates PRs. It prompts you to include all the information your reviewers need — and helps avoid common mistakes.
+
+A solid template might include:
+- [x] A summary of changes
+- [x] The rationale or linked ticket
+- [x] How to reproduce the issue (if applicable)
+- [x] Test steps or screenshots
+
+Templates reduce cognitive load for reviewers and help junior engineers learn what's expected.
+
+### 4. Test Before You Hit "Create"
+Yes, this sounds basic — but it's easy to forget. Your PR should pass all linting, formatting, and test checks. Manual testing is essential for anything with UI or critical user flows.
+
+**Bonus:** Mention how you tested the change. Don't assume reviewers will.
+
+### 5. Pick the Right Reviewers
+Instead of randomly tagging your team, think about who is best equipped to review the code. Choose reviewers based on their familiarity with the system, recent changes, or domain expertise.
+
+And if you're requesting a review from someone less familiar with the codebase, give them extra context.
+
+### 6. Stay Open to Feedback
+Great PR authors respond to feedback with humility and clarity. Explain why you made certain decisions, and don't be afraid to ask reviewers to elaborate.
+
+### 7. Use Draft PRs When You're Not Ready
+If your code isn't ready but you'd like early feedback or help with a tricky part, mark your PR as a draft. It signals that you're still working but open to collaboration.
+
+Draft PRs are ideal for:
+- [x] Large features under development
+- [x] CI testing setup
+- [x] Architectural feedback
+
+### 8. Mention Edge Cases or Limitations
+Reviewers often focus on the "happy path" unless told otherwise. If your code doesn't cover certain scenarios yet (e.g., localization, mobile breakpoints), let them know so they don't assume it's an oversight.
+
+### 9. Automate What You Can
+Automate repetitive feedback with CI tools, linters, formatters, and test coverage reports. This frees up human reviewers to focus on logic, architecture, and edge cases.
+
+**Popular tools:**
+- [x] ESLint / Prettier
+- [x] GitHub Actions or CircleCI for tests
+- [x] Axolo for code review and PR discussions
+- [x] Mergify for merging
+
+
+For more examples and breakdowns of high-quality PRs, <NoFollowLink url="https://blog.mergify.com/what-is-a-good-pull-request/">this article from Mergify</NoFollowLink> offers a great breakdown.
+
+## Why This All Matters
+
+You might be thinking — "this is a lot of effort for just a pull request." But here's the thing: the time you spend writing a thoughtful PR pays off many times over.
+
+### 1. You Speed Up the Review Cycle
+A well-prepared PR means fewer back-and-forth questions, less confusion, and faster feedback. Reviewers are more likely to prioritize your work when it's easy to understand and test.
+
+**Compare:**
+- A PR titled "misc updates" with no context vs.
+- A PR titled "Fix 403 errors for OAuth logins + test instructions"
+
+Which one are you reviewing first?
+
+### 2. You Build Team Trust
+When your teammates see consistently clear, well-scoped PRs from you, they trust that your code is thoughtful and safe. Over time, this leads to faster approvals and less scrutiny — not more.
+
+Clear PRs also encourage better discussions around design and implementation choices. They create a culture where feedback is welcomed and expected.
+
+### 3. You Reduce Bugs and Rework
+Confusing or sloppy PRs often lead to missed edge cases or incorrect assumptions. The extra time spent clarifying your work can save hours of debugging after release.
+
+As Kara Luton notes in her article, "You don't want your PR to be a scavenger hunt." The clearer your communication, the fewer mistakes slip through.
+
+### 4. You Help New Team Members Ramp Up Faster
+PRs are more than code — they're part of your project's documentation. Thoughtful PRs help onboard new developers who want to understand how and why certain features evolved.
+
+It's not just about merging. It's about leaving a traceable, readable footprint.
+
+### 5. You Make the Job More Enjoyable
+No one likes reviewing giant, cryptic pull requests. Clean, well-explained PRs lead to better collaboration, a more supportive culture, and a sense of pride in your work.
+
+They turn code review from a chore into a conversation.
+
+<ImageContainer
+  alt="benefits of a good pull request"
+  src="/blog/static/images/pr-best-practices/illu2.png"
+  classNameDiv="mx-10"
+  classNameImage=""
+  width={5691 / 2 }
+  height={3791 /  2}
+/>
+
+## Wrapping Up
+
+A pull request isn't just about code — it's about communication. It's how you show your work, explain your thinking, and invite collaboration.
+
+The next time you're about to hit "Create Pull Request," take an extra minute to:
+- [x] Give it a helpful title and description
+- [x] Make sure it's focused
+- [x] Link to related issues
+- [x] Explain how to test it
+
+And if you haven't already, introduce a PR template to your team. We walk through how to set one up <a href="https://axolo.co/blog/p/part-3-github-pull-request-template">here</a>
+
+It's a small change with a big impact.
+
+## Want to take your PR process to the next level?
+
+Axolo connects your GitHub pull requests directly to Slack, making it easier to stay on top of reviews, leave comments, and get your work merged faster. Give it a try at [Axolo.co](https://axolo.co).
+
+<UserReview />
+
