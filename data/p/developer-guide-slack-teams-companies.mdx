@@ -1,0 +1,170 @@
+---
+title: "Developer's practical guide to Slack-Teams companies"
+date: "2026-03-13"
+lastmod: "2026-03-13"
+tags: ["slack", "microsoft teams", "developer tools", "collaboration"]
+draft: false
+summary: "Why dev teams stick to Slack while the rest of the company uses Microsoft Teams, the friction it creates, and practical tips to make both platforms coexist without losing your mind."
+image: "/blog/static/images/msteams.png"
+authors: ["sydney"]
+---
+
+It's very likely that you've ever experienced such a scenario: dev team in Slack, while the rest of the company is using Microsoft Teams.
+Sounds awkward? yes, but actually very common, and considered with time as …normal.
+
+Such Slack/Teams situation has become a kind of quiet norm in tech and beyond. So, why does this split happen? And how do teams actually make it work? Let's break it down.
+In this article, we'll look at why this divide shows up so often, the friction it may introduce, and most importantly how to deal with it without losing your mind.
+If this setup sounds familiar to you, don't worry, you're actually not alone, and most importantly because there are solutions!
+We'll, in this article, walk through practical, developer tips to help you function and even thrive in a mixed Slack-and-Teams environment.
+
+<TOCInline toc={props.toc} toHeading={2} asDisclosure />
+
+## Why do some developers use Slack while the rest of the company uses Teams?
+
+<ImageContainer
+  alt="Developers using Slack in a Teams organization"
+  src="/blog/static/images/msteams.png"
+  classNameDiv="mx-10 lg:mx-20"
+  classNameImage=""
+  width={1024}
+  height={576}
+/>
+
+Similar to Asterix and Obelix's small Gaulish village resisting the Roman occupation, many developer "villages" use Slack when other departments operate on MS Teams.
+Why such situation happens so often? Here are a few explanations:
+
+### History
+
+In many companies, development teams had already been remote-friendly for years well before COVID. They obviously needed ways to communicate with each other, and chat tools appeared fast as essential. Chat is actually more adapted for sharing code snippets and managing asynchronous communication, allowing developers to stay focused while coding.
+
+Before Slack's official launch in 2014, lots of chat solutions were already available: Skype, IRC, HipChat, and Google Talk/Hangouts. But, thanks to its strong "developer-centric" features and experience, Slack was rapidly and widely adopted by development teams.
+
+Meanwhile, during this pre-COVID period, other departments mostly used email for internal communication. It was then COVID that forced extended remote work: companies had to adopt real-time collaboration tools for all employees. Since many organizations were already using Microsoft 365 for email and administration + Microsoft Teams was bundled at no additional cost, IT departments quickly selected Teams as the official company-wide communication tool.
+
+As a result, Slack was often viewed as part of the developers' toolkit rather than a corporate communication platform, reinforcing the split between development teams and the rest of the organization.
+
+### Developer experience
+
+One of the main reasons Slack is so widely adopted by development teams over Microsoft Teams is its overall user experience. Slack feels like a tool designed by developers, for developers and historically, that's exactly what it was. Slack originated as an internal communication tool built by the team behind the video game Glitch.
+
+#### Shortcuts
+
+Slack has many shortcuts allowing power users to operate faster, without even touching their mouse ;)
+Some of the most popular ones include:
+
+- `Ctrl + K` to switch between DMs and channels
+- `Ctrl + N` to start a new message
+- `Ctrl + F` to search within the current conversation
+- `Ctrl + G` to search globally
+
+There's even an official command to list all possible shortcuts: `/shortcuts` naturally 😉
+
+In everyday life, you can do almost everything using just the keyboard, without taking your mouse. A dream for many developers.
+
+#### Threading
+
+Developers love threads. They indeed allow deeper dive into a topic, reduce noise by avoiding channel-wide spam, and keep all contextual details in one place. Threads are already standard on platforms such as Stack Overflow, Reddit, GitHub, and Discord.
+
+Slack understood it and introduced threads in 2017. By contrast, MS Teams still does not support threads in DMs or group chats in 2026, it's only supported in "channels" since mid 2025. This difference has a significant impact on how comfortably developers can discuss between each other..
+
+#### Customizable
+
+Developers usually enjoy fine tuning their tools to match their habits and personal preferences, this is exactly where Slack is strong as it offers a wide range of customization options:
+
+- Dark mode (arguably essential 😉)
+- Custom emojis (who doesn't have their boss as an emoji?)
+- Highly granular notification settings (who doesn't get lost in all possible options? ;)
+- And even small but delightful details, like customizable waiting music when someone hasn't yet joined a huddle
+
+### Bots, automations, API
+
+Another reason many developers prefer Slack is its strong automation capabilities. Slack makes it easy to automate repetitive tasks, often the least enjoyable part of a developer's job, through bots.
+
+Bots are simple to build on Slack and can respond to shortcuts or commands. Common use cases within development teams include:
+
+- CI/CD and GitHub commands (and, of course, Axolo's 😉)
+- Production monitoring alerts
+- Bug status updates
+- Stand-up meeting workflows
+
+More generally, Slack's API is far more straightforward than Microsoft Teams'. Teams is based on Microsoft GraphQL, which adds an additional complexity in terms of permissions, abstractions, and documentation, leading to a harder integration to build but also to maintain.
+
+<CTABanner type="try" />
+
+### OS, API, performance
+
+Developers care deeply about performance and seamless integration into their work environment. Regarding this, Slack performs pretty well especially when compared to Microsoft Teams.
+
+- **RAM:** Slack usually consumes between 300–600 MB of RAM, when Teams often uses twice more.
+- **CPU:** Slack generates less CPU spikes than Teams does.
+- **OS:** Slack is officially available on Linux, unlike Teams, which provides only a web-based version.
+
+### Collaboration
+
+Last but not least, a major argument in favor of Slack over Microsoft Teams for developers is Slack's well-known openness. This openness can be illustrated through two main pillars:
+
+#### Slack connect
+
+Slack Connect, introduced in mid-2020 (right in the middle of the first COVID period), proved to be a killer feature. It indeed enabled collaboration of up to 20 companies within the same shared channel.
+
+This allowed developers that were working on cross-company projects to collaborate as if they were "normal" colleagues, and thus avoiding the inefficiency of email communication.
+
+Since Slack was already widely used within tech companies at that time, Slack Connect accelerated its adoption by new development teams and organizations.
+
+#### Slack apps
+
+The other reason why Slack was and still adopted among development teams is its wide marketplace.
+
+In 2026, Slack marketplace has 2600+ apps with even a developer category containing more than 500 apps. This large number of apps helps developers to integrate tools and workflows directly in Slack, which reinforces at the same time its position as a working OS.
+
+Now it appears pretty clear why many development teams prefer Slack. However, in reality, Microsoft Teams is often the officially adopted tool across the rest of the company. This creates a set of challenges for both groups: developers on Slack and other departments using Teams.
+
+## Main Challenges when developers use Slack and the rest of the company uses Microsoft Teams
+
+Using several collaboration tools within the same organization introduces several challenges detailed below:.
+
+### Siloed Communication
+
+One of the most obvious and tangible consequences of using several collaboration tools is that chats & files become fragmented across Slack and Teams, making it more complex to follow discussions and/or locate important information. This fragmentation can lead to missed messages, duplicated chat, and uncertainty about whether some messages will actually be read. Within a work environment already filled with calls, emails, sms, and even social networks, juggling between multiple collaboration tools adds cognitive fatigue which negatively affects focus and ultimately mental well-being.
+
+### Context switching
+
+Daily juggling between Slack, Teams, and sometimes even other collaboration tools interrupts work and alters focus. Time can also be impacted by moving between chat tools just to find information, reply to messages, or follow some active conversations leading unfortunately to mental fatigue.
+
+Many studies were conducted on the impact of context & tools switching, it can affect up to **40% of someone's productivity**. [Source](https://www.apa.org/topics/research/multitasking)
+
+### Delayed and missed messages
+
+Running Microsoft Teams and Slack side by side often creates an imbalance in attention. Users typically prioritize only one platform, while the other fades into the background leading to slower response times and, in even, missed communication.
+
+### Project discontinuity
+
+When a project is spread among multiple chat tools, newcomers usually struggle to get the full "picture". This becomes even more challenging if some users don't even have access to, or don't regularly consult, all involved collaborative platforms. Conversations are then scattered across chat tools, making it very difficult to grasp a clear view of the overall project.
+
+So what are the alternatives, beyond the obvious choice of picking just one tool? Let's take a look.
+
+<CTABanner type="learn" />
+
+## Tips for Developers working on Slack in a Teams Organization
+
+### Define clear guidelines
+
+Define clear guidelines setting which platform should be used for what specific types of communication. For example, keep Slack for internal chats and MS Teams for external collaboration with clients and partners…or the opposite 😀
+
+### Customize notifications
+
+Educate users to customize their notification settings so that critical channels are prioritized while less important ones could be muted. At the same time, define guidelines to reduce duplicate messaging across platforms and keep key announcements in just one single collaborative tool.
+
+### Define daily check routines
+
+Similar to email best practices, define a regular check-in routine to ensure that the secondary tool (for example, Teams for developers) is consulted at least 2 to 3 times per day. This maintains a minimum level of interaction with Teams colleagues while avoiding too many checks and still ensuring that important messages are read and responded in a reasonable time
+
+### Create bridges between Slack and MS Teams
+
+However when the previously listed measures are no longer sufficient and daily switching between Slack and Microsoft Teams becomes too time-consuming negatively affecting focus and productivity the most effective approach is to bridge the two platforms.
+
+Unfortunately, due to their very different architectures, using generic iPaaS solutions such as Zapier or Make is not recommended. Indeed these tools usually lead to a degraded user experience that is not suitable for daily usage.
+
+Building a custom bridge is also technically possible but introduces significant complexity: authentication, permissions, latency, security, user experience, feature asymmetry & regular API changes.
+
+Our advice would be to use a specialized solution such as [conv.ly](https://conv.ly), which provides a seamless experience between Slack and Teams. Setup takes only a few clicks, allowing Slack users to manage Teams messages directly from Slack without ever opening Teams ever again for chatting 😀.
