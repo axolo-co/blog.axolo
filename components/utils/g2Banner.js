@@ -5,31 +5,7 @@ import ReviewStars from "./reviewStar"
 const G2Banner = ({ isDarkBackground = false }) => {
   return (
     <div className="flex justify-center pb-2 pt-10 sm:pb-0 sm:pt-6">
-      <div
-        className={classNames(
-          "w-max ",
-          !isDarkBackground && "!grid !grid-cols-2 !gap-8 sm:!grid-cols-3 sm:!gap-4"
-        )}
-      >
-        <div
-          className={classNames(
-            "hidden hover:scale-125 sm:!row-start-1",
-            !isDarkBackground && "!row-start-2 !block !w-20 !justify-self-end  "
-          )}
-        >
-          <a
-            href="https://www.g2.com/products/axolo/reviews"
-            rel="nofollow noreferrer"
-            target={"_blank"}
-          >
-            <Image
-              width={770}
-              height={1000}
-              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-codereview-2024.png"
-              alt="Peer code review - Axolo awarded High Performer Spring 2023"
-            />
-          </a>
-        </div>
+      <div className="w-max">
         <a
           href="https://www.g2.com/products/axolo/reviews"
           rel="nofollow noreferrer"
@@ -65,22 +41,6 @@ const G2Banner = ({ isDarkBackground = false }) => {
             </p>
           </div>
         </a>
-        <div
-          className={classNames(" hidden  hover:scale-125", !isDarkBackground && "!block !w-20 ")}
-        >
-          <a
-            href="https://www.g2.com/products/axolo/reviews"
-            rel="nofollow noreferrer"
-            target={"_blank"}
-          >
-            <Image
-              width={770}
-              height={1000}
-              src="https://axolo.s3.eu-west-3.amazonaws.com/communication/partners/g2-highperformer-smallbusiness-2024.png"
-              alt="Peer code review - Axolo awarded High Performer Small Business Spring 2023"
-            />
-          </a>
-        </div>
       </div>
     </div>
   )
