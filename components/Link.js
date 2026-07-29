@@ -16,7 +16,11 @@ const CustomLink = ({ href, children, className, "aria-label": ariaLabel, ...res
   }
 
   if (isAnchorLink) {
-    return <a href={href} className={className} aria-label={ariaLabel} {...rest} />
+    return (
+      <a href={href} className={className} aria-label={ariaLabel} {...rest}>
+        {children}
+      </a>
+    )
   }
 
   return (
@@ -27,7 +31,9 @@ const CustomLink = ({ href, children, className, "aria-label": ariaLabel, ...res
       className={className}
       aria-label={ariaLabel}
       {...rest}
-    />
+    >
+      {children}
+    </a>
   )
 }
 
