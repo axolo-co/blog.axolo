@@ -1,10 +1,10 @@
 ---
-title: "Coding style template for developers in 2023"
+title: "Coding Style Template: Code Style Guide with Examples"
 date: "2023-08-29"
-lastmod: "2023-08-29"
+lastmod: "2026-11-05"
 tags: ["DEVELOPER-PRODUCTIVITY", "DEVELOPER-EXPERIENCE"]
 draft: false
-summary: "Looking to create your coding style documentation? You're at the right place! Crafting a clear and consistent coding style guide is essential for maintaining code quality, ensuring team collaboration, and facilitating smoother onboarding for new team members. This guide will walk you through the key components of a robust coding style documentation, from project structure to deprecated code management."
+summary: "A copy-paste coding style template for your team, code style examples by language (naming, formatting), and the tools that enforce a code style guide automatically: Prettier, ESLint, EditorConfig, Ruff and gofmt."
 image: "/blog/static/images/code-quality/coding-style.jpg"
 ---
 
@@ -17,7 +17,58 @@ image: "/blog/static/images/code-quality/coding-style.jpg"
   height={4016}
 />
 
-Looking to create your coding style documentation? You're at the right place! Crafting a clear and consistent coding style guide is essential for maintaining code quality, ensuring team collaboration, and facilitating smoother onboarding for new team members. This guide will walk you through the key components of a robust coding style documentation, from project structure to deprecated code management. By addressing the questions asked under each section, you'll be well on your way to establishing a strong foundation for your engineering team's coding practices.
+A **coding style template** is a short document that records how your team formats, names and organizes code, so every file reads as if one person wrote it. Copy the template below, fill in your team's choices, then let a formatter and a linter enforce the formatting rules so code reviews can focus on logic instead of style.
+
+## Copy-paste coding style template
+
+Paste this into `CODING_STYLE.md` (or your `CONTRIBUTING.md`) and replace each value with your team's decision:
+
+```markdown
+# Coding style guide
+
+## Formatting
+- Formatter: Prettier (JS/TS), Ruff format (Python), gofmt (Go). Never format by hand.
+- Indentation: 2 spaces (JS/TS), 4 spaces (Python), tabs (Go, set by gofmt)
+- Max line length: 100
+- Shared editor settings: .editorconfig at the repository root
+
+## Naming
+- Variables and functions: camelCase (JS/TS), snake_case (Python)
+- Classes and React components: PascalCase
+- Constants: UPPER_SNAKE_CASE
+- Files: kebab-case.ts, except components (UserProfile.tsx)
+
+## Linting
+- Linter: ESLint (eslint.config.js), Ruff (pyproject.toml)
+- Lint and format checks run in CI and block the merge
+
+## Errors and logging
+- Throw custom errors that extend Error; never swallow an error silently
+- Structured JSON logs with timestamp, level and context
+
+## Git
+- Commit messages: Conventional Commits (feat:, fix:, chore:)
+- Branches: type/short-description (feature/user-auth)
+
+## Code review
+- Every pull request gets at least one approval
+- Style comments are only for what the tools cannot check
+```
+
+## Code style examples by language
+
+Most teams start from their language's established conventions instead of inventing new ones:
+
+| Language   | Variables / functions | Classes / types | Constants         | Official or de facto style guide        | Tool that enforces it |
+| ---------- | --------------------- | --------------- | ----------------- | --------------------------------------- | --------------------- |
+| JavaScript | `camelCase`           | `PascalCase`    | `UPPER_SNAKE_CASE` | Your ESLint config + Prettier defaults | ESLint, Prettier      |
+| TypeScript | `camelCase`           | `PascalCase`    | `UPPER_SNAKE_CASE` | Same as JavaScript                     | ESLint, Prettier      |
+| Python     | `snake_case`          | `PascalCase`    | `UPPER_SNAKE_CASE` | PEP 8                                  | Ruff (or Black)       |
+| Go         | `camelCase`, `PascalCase` when exported | `PascalCase` | `PascalCase` or `camelCase` | Effective Go           | gofmt                 |
+
+The rest of this guide covers everything a formatter cannot decide for you. For each topic, answer the questions with your team's choice; the examples show what a good answer looks like.
+
+Crafting a clear and consistent coding style guide is essential for maintaining code quality, ensuring team collaboration, and facilitating smoother onboarding for new team members. This guide will walk you through the key components of a robust coding style documentation, from project structure to deprecated code management. By addressing the questions asked under each section, you'll be well on your way to establishing a strong foundation for your engineering team's coding practices.
 
 You can start simple with only a few sections, but if you answer everything, you should have a great start, let's dive in!
 
@@ -105,7 +156,7 @@ You can start simple with only a few sections, but if you answer everything, you
 
 - What format should commit messages follow?
 
-  **Example:** Use the format: `[type]: [short description]`. For instance, `fix: resolve login bug`.
+  **Example:** Use the format: `[type]: [short description]`. For instance, `fix: resolve login bug`. See our guide to [git commit message templates](https://axolo.co/blog/p/git-commit-messages-best-practices-examples) for more examples.
 
 - Are there any specific keywords or tags to include?
 
@@ -138,7 +189,7 @@ You can start simple with only a few sections, but if you answer everything, you
 
 - What libraries or frameworks should be used for unit testing?
 
-  **Example:** Use `Jest` for JavaScript-based projects.
+  **Example:** Use `Jest` or `Vitest` for JavaScript and TypeScript projects.
 
 - How should unit tests be structured and named?
 
@@ -254,11 +305,11 @@ You can start simple with only a few sections, but if you answer everything, you
 
 - Are there any preferred tools for auto-generating documentation?
 
-  **Example:** Use `Swagger` for API documentation.
+  **Example:** Describe your API with an OpenAPI specification and render it with tools like Swagger UI.
 
 - How should these tools be configured and used?
 
-  **Example:** Integrate `Swagger` with your API codebase to auto-generate docs based on code comments.
+  **Example:** Generate or validate the OpenAPI file in CI so the documentation never drifts from the code.
 
 ## 9. Performance Guidelines:
 
@@ -336,7 +387,7 @@ You can start simple with only a few sections, but if you answer everything, you
 
 - How should the pipeline be configured and managed?
 
-  **Example:** Use CI/CD platforms like `Jenkins` or `CircleCI` with configuration files stored in the repository.
+  **Example:** Use CI/CD platforms like GitHub Actions, GitLab CI/CD, Jenkins or CircleCI, with configuration files stored in the repository.
 
 ### Deployment practices:
 
@@ -379,17 +430,31 @@ If reducing your code review time by 60% is something you're interested in, you 
 
 - What tools are recommended for different tasks in the development process?
 
-  **Example:** Use `Webpack` for bundling, `ESLint` for linting, and `Prettier` for code formatting in JavaScript projects.
+  **Example:** In JavaScript projects, use `Vite` or `webpack` for bundling, `ESLint` for linting and `Prettier` for formatting. In Python, `Ruff` is both a linter and a formatter and can replace Flake8, Black and isort. In Go, `gofmt` formats every file the same way.
 
 - How should these tools be configured and integrated?
 
-  **Example:** Use configuration files at the root of the project, like `.eslintrc` for ESLint, and integrate them into the CI/CD pipeline.
+  **Example:** Use configuration files at the root of the project, like `eslint.config.js` for ESLint (since ESLint v10, the old `.eslintrc` format is no longer supported), `.prettierrc` for Prettier, `pyproject.toml` for Ruff and `.editorconfig` for editor settings. Run the same checks in the CI/CD pipeline.
 
 ### Configuration files for tools:
 
 - How should configuration files for tools be structured and stored?
 
-  **Example:** Store configuration files in the project root and use a consistent naming convention like `.toolnameconfig`.
+  **Example:** Store configuration files in the project root. A minimal `.editorconfig` that every editor understands:
+
+  ```ini
+  root = true
+
+  [*]
+  end_of_line = lf
+  insert_final_newline = true
+  charset = utf-8
+  indent_style = space
+  indent_size = 2
+
+  [*.py]
+  indent_size = 4
+  ```
 
 - Are there any standards or best practices to follow?
 
@@ -405,7 +470,7 @@ If reducing your code review time by 60% is something you're interested in, you 
 
 - Are there any specific patterns or conventions to follow?
 
-  **Example:** Prefix indexes with `idx_`and foreign keys with`fk*`.\*
+  **Example:** Prefix indexes with `idx_` and foreign keys with `fk_`.
 
 ### Normalization guidelines:
 
