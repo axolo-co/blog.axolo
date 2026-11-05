@@ -1,14 +1,16 @@
 ---
-title: "GitLab code review best practices in 2024"
+title: "GitLab Code Review: How to Review Merge Requests and Best Practices"
 date: "2022-08-09"
-lastmod: "2024-02-09"
+lastmod: "2026-11-05"
 tags: ["gitlab", "code-review"]
 draft: false
-summary: "In this article, we will be going through the code review best practices in GitLab. If you are interesting in learning how to use GitLab to be more productive while reviewing code, follow us!"
+summary: "How to do a code review in GitLab: start and submit a review, set default reviewers with Code Owners, review code without a merge request, and best practices."
 image: "/blog/static/images/gitlab/gitlab_code_review_best_practices.jpg"
 ---
 
-Welcome to this guide on GitLab code review best practices!We hope you'll find this guide useful, and if you're interested in the best way to manage your merge requests in GitLab, you should take a look at <a href="https://axolo.co" className="no-underline dark:!text-gray-300"  target="_blank" rel="noopener">Axolo, <span className="rainbow-button">which helps thousands of developers review merge requests faster in Slack</span></a> (also [incubated by Slack in 2023](https://axolo.co/blog/p/axolo-joins-slack-future-of-work-incubator)).
+To do a code review in GitLab, open the merge request, go to the **Changes** tab, and select **Start a review** on your first comment so your feedback stays private until you are done. Then select **Your review** and submit it with one outcome: **Approve**, **Comment**, or **Request changes**.
+
+This guide covers each step, how to set default reviewers, how to review code without a merge request, and the best practices that keep GitLab merge requests moving. If your team also wants to discuss merge requests in Slack, take a look at <a href="https://axolo.co" className="no-underline dark:!text-gray-300"  target="_blank" rel="noopener">Axolo, <span className="rainbow-button">which helps thousands of developers review merge requests faster in Slack</span></a> (also [incubated by Slack in 2023](https://axolo.co/blog/p/axolo-joins-slack-future-of-work-incubator)).
 
 <br />
 
@@ -16,62 +18,84 @@ Welcome to this guide on GitLab code review best practices!We hope you'll find t
 
 ## 1. Code review in GitLab
 
-### Why approving a merge request in GitLab is important?
+### How to do a code review in GitLab
 
-You can set your merge requests to require approval before they can be merged. While all users with Developer or higher permissions in GitLab Free can approve merge requests, these approvals are optional. GitLab Premium and GitLab Ultimate give you even more options:
+GitLab has a built-in review flow on every tier (Free, Premium and Ultimate), on GitLab.com and GitLab Self-Managed. Here is how it works, according to the <NoFollowLink url='https://docs.gitlab.com/user/project/merge_requests/reviews/'>GitLab merge request reviews documentation</NoFollowLink>:
 
-Before work can be merged, establish the necessary rules regarding the number and type of approvers.
+1. **Request a review.** The author assigns reviewers in the **Reviewers** section of the right sidebar, or with the `/assign_reviewer @username` quick action. The merge request then appears in the reviewer's **Review requested** list.
+2. **Read the context.** The reviewer reads the description and the existing comments, then opens the **Changes** tab to see the diff.
+3. **Start a review.** On the first comment, select **Start a review** instead of **Add comment now**. The comment stays unpublished and the sidebar shows that your review is in progress. Each following comment is saved with **Add to review**.
+4. **Suggest changes.** Use single-line or multi-line suggestions so the author can apply your proposal directly from the GitLab UI.
+5. **Submit the review.** Select **Your review**, check your pending comments, write an optional summary, and pick an outcome:
+   - **Approve**: leave feedback and approve the changes.
+   - **Comment**: leave general feedback without approving or blocking.
+   - **Request changes**: block the merge request until the author addresses your feedback (the blocking part requires GitLab Premium or Ultimate).
+6. **Re-request a review.** After pushing fixes, the author selects the **Re-request a review** icon next to the reviewer's name, or uses `/request_review @username`.
 
-Create a list of users who act as code owners for specific files and require their approval before merging work.
+When you submit, GitLab publishes all your comments at once and sends a single email to the people following the merge request, instead of one notification per comment.
 
-Merge request approvals can be configured per project and at the group level. Administrators of self-managed GitLab Premium and GitLab Ultimate instances can also configure approvals for the entire instance.
+<ImageContainer
+  src="/blog/static/images/gitlab/review_comment.png"
+  alt="GitLab review comment on a merge request"
+  width={1760}
+  height={808}
+  classNameDiv="mx-20 "
+
+/>
+
+### Why approving a merge request in GitLab is important
+
+Approvals make sure that someone other than the author has looked at the change before it is merged:
+
+- In **GitLab Free**, every user with at least the Developer role can approve a merge request, but approvals are optional and do not block merging.
+- In **GitLab Premium and Ultimate**, you can make approvals required, set the number and type of approvers, and require approval from Code Owners for the files they own.
+
+Merge request approvals can be configured per project and at the group level. Administrators of GitLab Self-Managed Premium and Ultimate instances can also configure approvals for the entire instance.
 
 #### Merge request approval rules in GitLab
 
-You can set the minimum number of approvals required before code can be merged into your project using merge request approval rules. You can also use these rules to specify which users can approve work. Here are some examples of rules you can write:
+Approval rules (GitLab Premium and Ultimate) set the minimum number of approvals required before code can be merged, and which users can approve. For example:
 
-- Work can always be approved by users with specific permissions.
-- Code owners can approve work for files that they own.
-- Users with specific permissions can approve work even if they do not have repository merge rights.
-- Overriding approval rules on a specific merge request can be granted or denied to users with specific permissions.
+- Require one approval from the backend team on every merge request.
+- Require Code Owners to approve changes to the files they own.
+- Require a security team member to approve changes that introduce potential vulnerabilities (GitLab Ultimate).
 
-You can also customize your rules to have additional merge request approval settings for greater control over the level of oversight and security your project requires.
+Configure them in **Settings > Merge requests > Merge request approvals**. You can also prevent authors from approving their own merge requests and decide whether approvals are reset when new commits are pushed.
 
-#### How to approve a merge request in GitLab?
+#### How to approve a merge request in GitLab
 
-When an eligible approver visits an open merge request, GitLab displays one of the following buttons after the merge request body:
+When an eligible approver opens a merge request, GitLab shows an **Approve** button in the merge request widget. You can also:
 
-- Approve: The merge request has not yet received the necessary number of approvals.
-- Approve additionally: The merge request has received the necessary number of approvals.
-- Revoke approval: The user who is viewing the merge request has already approved it.
+- Approve while submitting your review (the **Approve** outcome).
+- Use the `/approve` quick action in a comment.
+- Revoke your approval later with **Revoke approval**.
 
-When adding a comment to a merge request, eligible approvers can also use the /approve quick action. If a user approves a merge request and is listed in the reviewer list in GitLab 13.10 or later, a green check mark () appears next to their name.
+A merge request can be merged once it has the required approvals, unless another merge check blocks it: merge conflicts, unresolved threads, a failed CI/CD pipeline, or a pending change request.
 
-A merge request can merge once it has received the number and type of approvals you specify unless it is blocked for another reason. Other issues, such as merge conflicts, pending discussions, or a failed CI/CD pipeline, can block merge requests.
+You can find more detailed information in the <NoFollowLink url='https://docs.gitlab.com/user/project/merge_requests/approvals/'>Merge Request Approvals</NoFollowLink> section of the GitLab documentation.
 
-Prevent author approval in your project's settings to prevent merge request authors from approving their own merge requests.
+### GitLab default reviewers
 
-When you enable approval rule overrides, merge requests created before the default approval rules change are unaffected. The only exceptions are changes to the rule's target branch.
+#### How to set default reviewers in GitLab
 
-You can find more detailed information in the <NoFollowLink url='https://docs.gitlab.com/ee/user/project/merge_requests/approvals'>Merge Request Approval</NoFollowLink> section of the GitLab documentation.
+GitLab does not have a "default reviewers" list per project, but there are four ways to get the same result:
 
-### GitLab reviewers
+1. **Automatic reviewer assignment (GitLab Premium and Ultimate).** Since GitLab 19.1, a project Maintainer can turn on **Settings > Merge requests > Automatic reviewer assignment > Automatically assign all code owners as reviewers**. GitLab then assigns the Code Owners of the changed files when a merge request is created in a ready state, or when a draft is marked as ready. It needs a CODEOWNERS file (see below) and skips merge requests that already have a reviewer.
+2. **Recommend Reviewers Flow (GitLab Premium and Ultimate, GitLab Duo Agent Platform).** Generally available since GitLab 19.5, it recommends the minimum number of reviewers needed to satisfy each approval rule, based on availability, workload and time zone. You still choose who to assign.
+3. **A merge request description template.** Quick actions in description templates run when the merge request is created, so a default template containing `/assign_reviewer @username` assigns that reviewer every time (the author needs permission to set reviewers).
+4. **An external tool.** On GitLab Free, our free [Auto Assign Reviewer for GitLab](https://axolo.co/auto-assign-reviewer-for-gitlab) reads your CODEOWNERS file and assigns reviewers on new merge requests.
 
-#### Set up GitLab default reviewers automatically
+The full details are in the <NoFollowLink url='https://docs.gitlab.com/user/project/merge_requests/reviews/automatic_reviewer_assignment/'>automatic reviewer assignment documentation</NoFollowLink>.
 
-GitLab does not provide a way to automatically set reviewers on new merge requests, but you can ease this process by implementing code owner rules (next chapter).
+#### GitLab Code Owners for merge requests
 
-#### GitLab code owners for merge request
-
-Create a CODEOWNERS file to specify which users or shared groups are in charge of which files and directories in a repository. Each repository can only have one CODEOWNERS file. To set up your file:
-
-Select the location where you want to save your CODEOWNERS file and create it, you have three possibilities:
+Code Owners is a GitLab Premium and Ultimate feature. Create a CODEOWNERS file to specify which users or groups own which files and directories in a repository. GitLab looks for the file in three places:
 
 - In the root of your repository
-- In the directory .gitlab/
-- In the docs/ folder
+- In the `.gitlab/` directory
+- In the `docs/` directory
 
-Enter commands in the file that follows one of the following patterns:
+Enter rules that follow these patterns:
 
 ```
 ## Code Owners for a file
@@ -98,7 +122,7 @@ directoryname/ @groupname
   classNameDiv="mx-40 "
 />
 
-After setting up your CODEOWNERS file, you will be able to find any potential reviewers in your eligible reviewer's section. More information about <NoFollowLink url='https://docs.gitlab.com/ee/user/project/code_owners.html'>Code Owner</NoFollowLink> in the dedicated GitLab documentation.
+Once the file is in place, Code Owner names are displayed on the files they own, and the **Assign reviewers** drawer of a merge request lists the Code Owners for the changed files. Combined with protected branches, you can require their approval before merging. More information in the <NoFollowLink url='https://docs.gitlab.com/user/project/codeowners/'>Code Owners</NoFollowLink> documentation.
 
 <ImageContainer
   src="/blog/static/images/gitlab/gitlab_codeowner.PNG"
@@ -112,7 +136,7 @@ After setting up your CODEOWNERS file, you will be able to find any potential re
 
 #### GitLab auto assign reviewers
 
-GitLab does not have a built-in feature to automatically assign reviewers but we have created a side-project to help every GitLab users assign automatically their reviewers: <a href="https://axolo.co/auto-assign-reviewer-for-gitlab" target="_blank" rel="noopener">Auto Assign Reviewer for GitLab by Axolo</a>. You don't even need to create an Axolo account, you can use it on your own.
+If you are on GitLab Free, or want reviewers assigned without changing your GitLab settings, we built a free side project: <a href="https://axolo.co/auto-assign-reviewer-for-gitlab" target="_blank" rel="noopener">Auto Assign Reviewer for GitLab by Axolo</a>. You don't even need to create an Axolo account to use it.
 
 <a href="https://axolo.co/auto-assign-reviewer-for-gitlab" target="_blank" rel="noopener">
   <ImageContainer
@@ -128,34 +152,45 @@ GitLab does not have a built-in feature to automatically assign reviewers but we
   requests
 </SubImageText>
 
-Use this tool to leverage CODEOWNERS and automatically assign reviewers to your merge requests. It's
-a simple and easy-to-use tool that will help you save time and improve your code review process.
+The tool reads your CODEOWNERS file to find the right reviewers and assigns them to your merge requests automatically.
 
-### Review, approval & comment in GitLab
+### GitLab code review without a merge request
 
-Most other code versioning or code hosting software has a dedicated review feature within their pull/merge request. GitLab does not.
+Reviews, approvals and review status live on merge requests, so there is no full review flow outside of them. You still have two options:
 
-Inside GitLab, you can either approve a pull request or revoke your approval. If you wish to request changes to another developer, you need to either leave a comment in the `Overview` section of the merge request or comment directly on the code.
+- **Comment on a commit.** Go to **Code > Commits**, select a commit, and add a comment or start a thread. This works for a quick question on code that is already on a branch.
+- **Open a merge request for the review only.** To review existing code, for example an old feature or a whole repository, create a branch from an earlier commit (or an empty branch), then open a merge request from the branch you want reviewed into it. Reviewers get the full diff, threads and approvals. Close the merge request without merging when the review is done.
 
-<ImageContainer
-  src="/blog/static/images/gitlab/review_comment.png"
-  alt="GitLab Review Comment"
-  width={1760}
-  height={808}
-  classNameDiv="mx-20 "
+### GitLab Duo code review
 
-/>
+GitLab can also review merge requests with AI. Assign `@GitLabDuo` as a reviewer, or use `/assign_reviewer @GitLabDuo`, and GitLab Duo posts review comments on the diff. Two versions exist:
+
+- **Code Review Flow**, the agentic version, available on every tier and billed with GitLab Credits.
+- **GitLab Duo Code Review**, the original version, for users with the GitLab Duo Enterprise add-on (GitLab Premium and Ultimate).
+
+Both can run automatically when a merge request is created, and both accept custom review instructions. An AI review is a good first pass, not a replacement for a teammate who knows the code. See the <NoFollowLink url='https://docs.gitlab.com/user/project/merge_requests/duo_in_merge_requests/'>GitLab Duo in merge requests documentation</NoFollowLink>.
 
 ### GitLab code review workflow
 
-The GitLab code review workflow is simple.
+1. Push your changes to a branch, from your terminal or the GitLab interface.
+2. Open a merge request. Mark it as a draft while it is not ready, so nobody reviews unfinished work.
+3. Mark it as ready and request reviewers (or let automatic reviewer assignment do it).
+4. Wait for the CI/CD pipeline to pass.
+5. Reviewers start a review, then submit it with **Approve**, **Comment** or **Request changes**.
+6. The author resolves the threads, pushes fixes, and re-requests a review.
+7. Once the required approvals are in and every merge check passes, merge.
 
-1. Push your changes to GitLab using a terminal or the GitLab interface,
-2. Open a merge request from your terminal or the GitLab interface,
-3. Request reviewers to approve your merge request,
-4. (optional) If you have set up CI/CD automation, wait for the green light before merging,
-5. Reviewers will approve your merge request or request changes, change your code accordingly,
-6. If all required reviewers have approved the merge request, you can now safely merge if there is no conflict with the base branch.
+Most delays happen between steps 3 and 5, while the merge request waits for someone to notice it. A [GitLab Slack integration](https://axolo.co/gitlab-slack-integration) such as Axolo brings review requests, comments and pipeline results into Slack so reviewers see them without checking GitLab.
+
+### GitLab merge request best practices
+
+- **Keep merge requests small.** A diff that can be read in one sitting gets a faster, better review.
+- **Write a useful description.** Explain why the change is needed and how to test it. A default description template makes this a habit.
+- **Use drafts.** Draft merge requests cannot be merged and signal that the work is not ready for review.
+- **Let the pipeline run first.** Reviewers should not spend time on code that fails its tests.
+- **Require approvals on protected branches** (Premium and Ultimate), and require Code Owners approval for sensitive paths.
+- **Resolve every thread.** Turn on "All threads must be resolved" in the merge checks so no comment is lost.
+- **Use suggestions.** A suggested change is quicker to apply than a comment describing it.
 
 <CTABanner type="learn" tool="gitlab" />
 
@@ -187,7 +222,7 @@ Following the addition of Review Apps to your workflow, you follow the branched 
 
 To view the changes live, select the link in the merge request related to the branch. You have now set up a new review environment!
 
-If you're interested, you can learn more in the dedicated <NoFollowLink url='https://docs.gitlab.com/ee/ci/review_apps/'>GitLab Review App Documentation</NoFollowLink> section.
+If you're interested, you can learn more in the dedicated <NoFollowLink url='https://docs.gitlab.com/ci/review_apps/'>GitLab Review App Documentation</NoFollowLink> section.
 
 ### Why are review apps important?
 
