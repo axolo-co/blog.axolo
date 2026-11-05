@@ -1,21 +1,21 @@
 ---
-title: "JS code coverage tool in 2023 - Istanbul vs Jest vs JS Coverage vs CodeCov"
+title: "JavaScript Code Coverage: Istanbul vs Jest vs Vitest vs c8"
 date: "2023-07-28"
-lastmod: "2023-07-28"
+lastmod: "2026-11-05"
 tags: ["CODE-COVERAGE", "DEVELOPER-PRODUCTIVITY", "TESTING", "DEVELOPER-EXPERIENCE"]
 draft: false
-summary: "This article provides a detailed review and comparison of Istanbul, Jest, JS Coverage, and CodeCov - four leading JavaScript code coverage tools. Learn about their features, pricing, and when to use each tool."
+summary: "Compare JavaScript code coverage tools: Istanbul (nyc), Jest, Vitest, c8, Node.js and Codecov. How each measures coverage, setup steps, and which to choose."
 image: "/blog/static/images/codecoverage/js-code-coverage-tools.jpg"
 authors: ["sydney"]
 ---
 
+For most JavaScript projects, the best code coverage tool is the one built into your test runner: **Vitest** (V8 coverage by default) or **Jest** (`jest --coverage`, Istanbul instrumentation by default). Use **Istanbul's nyc** or **c8** for other runners such as Mocha or the Node.js test runner, and a service like **Codecov** to track coverage on every pull request.
+
 <TOCInline toc={props.toc} toHeading={3} asDisclosure />
 
-## JS Code coverage
+## 1. JavaScript code coverage
 
-Maintaining the quality and reliability of code is crucial. One of the key metrics that helps in this process is 'Code Coverage'. This article will focus on the concept of Code Coverage, its importance in JavaScript, and explore some of the best tools available for measuring it.
-
-### 1.1 What is Code Coverage?
+### 1.1 What is code coverage?
 
 <ImageContainer
   alt="jest code coverage tool screenshot"
@@ -26,52 +26,57 @@ Maintaining the quality and reliability of code is crucial. One of the key metri
   height={1728}
 />{" "}
 
-Code Coverage is a metric that quantifies the degree to which the source code of a program is executed during testing. It is typically measured as a percentage, with higher percentages indicating that more of the source code has been covered by the tests. This metric can help identify areas of the code that have not been tested and need further attention.
+Code coverage measures how much of your source code runs while your tests run. It is reported as a percentage, usually split into four metrics:
+
+- **Statements**: how many statements were executed.
+- **Branches**: how many branches of each `if`, `switch` or ternary were taken.
+- **Functions**: how many functions were called.
+- **Lines**: how many lines were executed.
+
+A low number points to code that no test exercises, which is where bugs are most likely to slip into production.
 
 ### 1.2 Code coverage limitations
 
-While code coverage is a valuable tool in software testing, it's important to understand its limitations. Code coverage measures the extent of code that is executed during testing, but it doesn't assess the quality of the tests themselves. High code coverage can give a false sense of security if the tests are poorly written or if they don't adequately check for correct outcomes. Furthermore, code coverage doesn't account for different paths through the code that might occur under varying conditions. It also can't guarantee that all possible inputs or states of your application are tested. Therefore, while striving for high code coverage is beneficial, it should be complemented with other testing strategies and quality assurance practices to ensure comprehensive and effective testing.
+Code coverage tells you which code ran, not whether your tests checked the right result. A test that calls a function without asserting anything still counts as coverage. High coverage can therefore give a false sense of security, and 100% coverage does not mean every input or state of your application is tested. Use coverage to find untested code, and combine it with good assertions, code review and other testing practices.
 
 <Callout
   title="High code coverage can give a false sense of security if the tests are poorly written or if they don't adequately check for correct outcomes. "
   subtitle="...doesn't account for different paths through the code that might occur under varying conditions....it should be complemented with other testing strategies and quality assurance practices to ensure comprehensive and effective testing."
 />
 
-### 1.3 Importance of Code Coverage in JavaScript
+### 1.3 Two ways to measure JavaScript coverage
 
-JavaScript, as one of the most widely used programming languages, forms the backbone of many web applications. Ensuring the reliability of JavaScript code is therefore vital for the overall performance and user experience of these applications.
+JavaScript coverage tools work in one of two ways:
 
-In the context of JavaScript, Code Coverage serves as a visual measurement that helps developers identify untested parts of the code. This can prevent potential bugs from making their way into production and aids in maintaining and improving the quality of the code over time.
+- **Instrumentation (Istanbul).** The tool rewrites your code before it runs to add counters on every statement, branch and function. It works in any JavaScript runtime, but adds overhead.
+- **Native V8 coverage.** Node.js, Deno and Chromium browsers run on the V8 engine, which can record coverage itself. Tools like c8, Vitest's default provider and Jest's `v8` provider read that data and convert it to the same report formats as Istanbul. It is usually faster, but only works on V8-based runtimes (not Firefox or Bun).
 
-In the following sections, we will delve into some of the top tools for measuring Code Coverage in JavaScript, providing a comprehensive analysis of their features, pros, cons, and usage.
+Both produce the same report formats (`text`, `html`, `lcov`, `json`), so you can switch without changing your CI or reporting service.
 
 <UserReview />
 
-## 2. Code Coverage Tools for JavaScript: An Overview
+## 2. JavaScript code coverage tools compared
 
-In the JavaScript ecosystem, there are several tools available that can help developers measure code coverage. These tools vary in their features, ease of use, and the level of detail they provide about the code. Some tools are standalone code coverage tools, while others are testing frameworks that include code coverage functionality. In this section, we will provide an overview of these tools and discuss the criteria for selecting a code coverage tool.
+| Tool                | Type                      | How it measures                       | Use it with                       | Price                                                    |
+| ------------------- | ------------------------- | ------------------------------------- | --------------------------------- | -------------------------------------------------------- |
+| Istanbul (nyc)      | Coverage CLI              | Instrumentation                       | Mocha, AVA, tap, any Node.js test | Free, open source                                        |
+| Jest                | Test runner with coverage | Istanbul via Babel (default) or V8    | Jest tests                        | Free, open source                                        |
+| Vitest              | Test runner with coverage | V8 (default) or Istanbul              | Vitest tests                      | Free, open source                                        |
+| c8                  | Coverage CLI              | Native V8                             | Any Node.js process               | Free, open source                                        |
+| Node.js test runner | Built into Node.js        | Native V8 (experimental)              | `node --test`                     | Free                                                     |
+| Codecov             | Coverage reporting (SaaS) | Collects reports from the tools above | Any CI, GitHub, GitLab, Bitbucket | Free for 1 user and open source, paid from $5/user/month |
 
-### 2.1 Criteria for Selecting a Code Coverage Tool
+### 2.1 Criteria for selecting a code coverage tool
 
-Choosing the right code coverage tool can significantly impact the effectiveness of your testing process. Here are some key criteria to consider when selecting a code coverage tool for JavaScript:
+- **Your test runner.** If you use Jest or Vitest, start with their built-in coverage. A separate tool is only needed for other runners.
+- **Your runtime.** Native V8 coverage needs Node.js, Deno or a Chromium browser. Istanbul instrumentation works everywhere.
+- **Accuracy and speed.** V8 coverage is usually faster; Istanbul is the long-standing reference for accurate branch reports.
+- **Reports.** Check that the tool outputs `lcov` if you upload coverage to a service or show it in your editor.
+- **CI/CD integration.** Coverage thresholds that fail the build, and coverage comments on pull requests, keep coverage from slowly dropping.
 
-**Compatibility:** The tool should be compatible with your tech stack. It should work seamlessly with your existing testing frameworks and libraries.
+## 3. Detailed review of each tool
 
-**Ease of Use:** The tool should be user-friendly and easy to integrate into your existing workflow. It should provide clear and understandable reports.
-
-**Detailed Reporting:** Look for tools that offer detailed and comprehensive reports. The reports should not only show the percentage of code covered but also indicate which parts of the code are not covered.
-
-**Performance:** The tool should not significantly slow down your testing process. It should be efficient and fast.
-
-**Community Support:** Tools with strong community support tend to have regular updates, more resources for learning, and quicker bug fixes.
-
-**Integration with CI/CD:** If you use continuous integration/continuous deployment (CI/CD), the tool should ideally integrate with your CI/CD system to automate the code coverage process.
-
-By considering these criteria, you can select a code coverage tool that best fits your project's needs and contributes to the overall quality of your code.
-
-## 3. Detailed Review of Selected Tools
-
-### 3.1 Tool 1: Istanbul
+### 3.1 Istanbul (nyc)
 
 <ImageContainer
   alt="istanbul code coverage tool screenshot"
@@ -84,48 +89,45 @@ By considering these criteria, you can select a code coverage tool that best fit
 
 #### 3.1.1 Overview of Istanbul
 
-Istanbul, also known as nyc, is a state-of-the-art command-line interface for JavaScript code coverage. It instruments your ES5 and ES2015+ JavaScript code with line counters, allowing you to track how well your unit-tests exercise your codebase. The nyc command-line client for Istanbul works well with most JavaScript testing frameworks like tap, mocha, AVA, etc.
+Istanbul is the original JavaScript code coverage library, and **nyc** is its command-line client. It instruments your JavaScript and TypeScript code with counters to track how well your tests exercise your codebase, and it works with most Node.js test frameworks, such as Mocha, AVA and tap. nyc is still maintained (version 18 was released in February 2026), and Istanbul's instrumentation and report formats are also used under the hood by Jest and by Vitest's `istanbul` provider.
 
 #### 3.1.2 Features of Istanbul
 
-Istanbul supports applications that spawn subprocesses.
-It provides source-mapped coverage of Babel and TypeScript projects.
-Istanbul allows you to set custom coverage thresholds that will fail if check-coverage is set to true and your coverage drops below those thresholds.
-It supports both inline source-maps and .map files for pre-instrumented codebases.
-Istanbul can combine the coverage report for you if configured correctly with the --no-clean flag and the report command.
+- Source-mapped coverage for Babel and TypeScript projects.
+- Coverage of applications that spawn subprocesses.
+- Coverage thresholds that fail the run when `check-coverage` is on and coverage drops below them.
+- Caching of instrumented files to speed up repeated runs.
+- Many report formats: `text`, `html`, `lcov`, `json`, `cobertura` and more.
 
-#### 3.1.3 Pros and Cons of Istanbul
+#### 3.1.3 Pros and cons of Istanbul
 
 _👍 Pros:_
 
-Istanbul supports a wide variety of configuration arguments.
-It allows you to inherit other configurations using the key extends in the package.json stanza, .nycrc, or YAML files.
-Istanbul supports caching of instrumented files to disk to prevent instrumenting source files multiple times, and speed nyc execution times.
+- Battle-tested for more than a decade, with accurate branch coverage.
+- Works on any JavaScript runtime, because coverage comes from instrumentation.
+- Highly configurable through `.nycrc` files or the `nyc` key in `package.json`.
 
 _👎 Cons:_
 
-One potential downside could be the complexity of configuration for beginners.
+- Instrumentation makes tests slower and uses more memory than native V8 coverage.
+- The configuration can be complex for beginners.
 
-#### 3.1.4 How to Use Istanbul for Code Coverage
+#### 3.1.4 How to use Istanbul for code coverage
 
-To use Istanbul for code coverage, you need to add it as a dev dependency using your package manager: npm i -D nyc or yarn add -D nyc. You can use nyc to call npm scripts (assuming they don't already have nyc executed in them).
+Add nyc as a dev dependency with `npm i -D nyc` (or `yarn add -D nyc`), then wrap your test command:
 
-For example:
-
-```
+```json
 {
-"scripts": {
-"test": "mocha",
-"coverage": "nyc npm run test"
-}
+  "scripts": {
+    "test": "mocha",
+    "coverage": "nyc npm run test"
+  }
 }
 ```
 
-You can also use npx instead of installing nyc as a dependency, but you might get updates you are not ready for; to get around this, pin to a specific major version by specifying, e.g. nyc@14.
+Run `npm run coverage` to see a text summary. Add `--reporter=html --reporter=lcov` to generate an HTML report and an `lcov.info` file. For advanced usage, see the [Istanbul documentation](https://istanbul.js.org/).
 
-For more detailed instructions and advanced usage, you can refer to the Istanbul [documentation](https://istanbul.js.org/).
-
-### 3.2 Tool 2: Jest
+### 3.2 Jest
 
 <ImageContainer
   alt="jest code coverage tool screenshot"
@@ -138,115 +140,131 @@ For more detailed instructions and advanced usage, you can refer to the Istanbul
 
 #### 3.2.1 Overview of Jest
 
-Jest is a delightful JavaScript testing framework developed and regularly maintained by Facebook. It works out of the box for most JavaScript projects and provides an instant feedback loop to developers. Jest is known for its "zero-configuration" philosophy. You don't have to make a lot of decisions and tweak configurations to get started with Jest. It also supports snapshot testing, which can capture snapshots of large objects to simplify testing and analyze how they change over time.
+Jest is a JavaScript testing framework created at Meta and now maintained under the OpenJS Foundation. It works out of the box for most JavaScript projects and includes test running, assertions, mocking, snapshots and code coverage in a single package. The current major version is Jest 30.
 
-#### 3.2.2 Features of Jest
+#### 3.2.2 How Jest measures code coverage
 
-**Zero-configuration:** Jest works out of the box for most JavaScript projects, which means you can get started quickly without having to decide on a lot of configurations.
-**Snapshot Testing:** Jest can capture snapshots of React trees or other serializable values to write tests quickly and provide a way to track changes over time.
-**Interactive Watch Mode:** Jest's watch mode runs only the tests related to the files changed since the last commit, providing a fast feedback loop.
-**Mocking and Isolation:** Jest allows you to mock objects in your test files. It supports function mocking, manual mocking, timer mocking, and more.
-Code Coverage: With Jest, you can collect code coverage information and see exactly which lines of your code are being tested.
+Jest has a `coverageProvider` option with two values:
 
-#### 3.2.3 Pros and Cons of Jest
+- **`babel`** (default): Jest instruments your code with Istanbul through Babel. This is the "Jest Istanbul" combination many teams search for: you get Istanbul's reports without installing nyc.
+- **`v8`**: Jest uses native V8 coverage, which avoids the instrumentation step.
+
+By default, Jest writes `clover`, `json`, `lcov` and `text` reports to a `coverage` folder, and you can enforce minimums with `coverageThreshold`.
+
+#### 3.2.3 Pros and cons of Jest
 
 _👍 Pros:_
 
-Jest is easy to set up and use, making it a good choice for projects of any size.
-It has a rich API for various features like mocking and spying.
-Jest has strong community support and is regularly maintained by Facebook.
+- Coverage is built in: no extra package to install.
+- Rich API for mocking, spying and snapshot testing.
+- Very large community and ecosystem.
 
 _👎 Cons:_
 
-Jest runs slower compared to some other testing libraries like Mocha.
-While Jest's snapshot testing can be useful, it can also lead to large snapshot files that need to be manually reviewed and maintained.
+- Often slower than Vitest, especially with the default Babel instrumentation.
+- Native ES modules support still needs extra configuration.
 
-#### 3.2.4 How to Use Jest for Code Coverage
+#### 3.2.4 How to use Jest for code coverage
 
-To use Jest for code coverage, you need to install Jest as a dev dependency in your project:
-
-```
-  npm install --save-dev jest
-```
-
-Or if you are using yarn:
+Install Jest as a dev dependency:
 
 ```
-  yarn add --dev jest
+npm install --save-dev jest
 ```
 
-Then, you can add a script in your package.json to run your tests with Jest:
+Add a script in your `package.json`:
 
-```
-  {
-    "scripts": {
-    "test": "jest"
-    }
+```json
+{
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage"
   }
+}
 ```
 
-To collect code coverage, you can run Jest with the --coverage flag:
+Run `npm run coverage`. Jest prints a summary table and writes the full report to the `coverage` folder. To switch to V8 coverage and fail the run under 80% of lines, add this to your Jest config:
 
-```
-  npm test -- --coverage
-```
-
-Or with yarn:
-
-```
-  yarn test --coverage
+```json
+{
+  "coverageProvider": "v8",
+  "coverageThreshold": { "global": { "lines": 80 } }
+}
 ```
 
-This will generate a coverage report in a new directory, coverage, in your project root.
+For more details, see the [Jest configuration documentation](https://jestjs.io/docs/configuration).
 
-For more detailed instructions and advanced usage, you can refer to the [Jest documentation](https://jestjs.io/docs/getting-started).
+### 3.3 Vitest
 
-### 3.3 Tool 3: JS Coverage
+#### 3.3.1 Overview of Vitest
 
-#### 3.3.1 Overview of JS Coverage
+Vitest is a test runner built on Vite, with a Jest-compatible API. It is widely used in Vite-based projects (Vue, Svelte, React and others). Coverage is built in and supports two providers:
 
-JS Coverage is a code coverage tool written in pure JavaScript, supporting both Node.js and JavaScript. It is designed to be easy to use and flexible, allowing developers to quickly and efficiently measure the code coverage of their JavaScript code.
+- **`v8`** (default, `@vitest/coverage-v8`): native V8 coverage. Since Vitest 3.2, it remaps coverage using the code's syntax tree, so its reports match Istanbul's while keeping V8's speed.
+- **`istanbul`** (`@vitest/coverage-istanbul`): instrumentation, for runtimes that are not based on V8, such as Firefox or Bun.
 
-#### 3.3.2 Features of JS Coverage
-
-- JS Coverage supports both Node.js and JavaScript.
-- It provides a command-line interface for easy use and integration into testing workflows.
-- JS Coverage supports the injection of functions into your module exports for easy testing.
-- It allows for the creation of coverage reports in various formats, including spec, list, tap, detail, and HTML.
-- JS Coverage supports the use of a `.covignore` file to specify files to be ignored during coverage calculation.
-
-#### 3.3.3 Pros and Cons of JS Coverage
+#### 3.3.2 Pros and cons of Vitest
 
 _👍 Pros:_
 
-- JS Coverage is easy to use and flexible, making it a good choice for projects of any size.
-- It supports a wide variety of report formats, allowing developers to choose the one that best suits their needs.
-- JS Coverage supports the use of a `.covignore` file, providing flexibility in determining which files should be included in the coverage calculation.
+- Fast, with V8 coverage as accurate as Istanbul.
+- Native ES modules and TypeScript support, no Babel needed.
+- Jest-compatible API, which makes migration easier.
 
 _👎 Cons:_
 
-- The documentation for JS Coverage is somewhat limited, which may make it harder for new users to get started.
-- JS Coverage has not been updated recently (as of July 2023), which may indicate a lack of ongoing maintenance and support.
+- Best suited to projects that already use Vite, or that can adopt it.
+- By default, the report only shows files imported by your tests; you need `coverage.include` to see untested files.
 
-#### 3.3.4 How to Use JS Coverage for Code Coverage
+#### 3.3.3 How to use Vitest for code coverage
 
-To use JS Coverage for code coverage, you need to install it as a dependency in your project:
-
-```
-npm install jscoverage
-```
-
-Then, you can use JS Coverage to instrument your JavaScript files for coverage measurement:
+Install the provider and run Vitest with `--coverage`:
 
 ```
-jscoverage source.js source-cov.js
+npm i -D vitest @vitest/coverage-v8
+npx vitest run --coverage
 ```
 
-This will create a new file, source-cov.js, which is an instrumented version of source.js that can be used to measure code coverage.
+To include every source file in the report, even those that no test imports:
 
-For more detailed instructions and advanced usage, you can refer to the [JS Coverage documentation](https://github.com/fishbar/jscoverage).
+```ts
+import { defineConfig } from "vitest/config"
 
-### 3.4 Tool 4: CodeCov
+export default defineConfig({
+  test: {
+    coverage: {
+      provider: "v8", // or 'istanbul'
+      include: ["src/**/*.{ts,tsx}"],
+    },
+  },
+})
+```
+
+See the [Vitest coverage guide](https://vitest.dev/guide/coverage) for all options.
+
+### 3.4 c8
+
+c8 collects coverage with Node.js's native V8 coverage and outputs Istanbul-compatible reports. Because it wraps any Node.js process, it works with any test runner, including Mocha and the Node.js test runner, without instrumenting your code. It is actively maintained (version 12 was released in July 2026).
+
+```
+npm i -D c8
+npx c8 --reporter=text --reporter=lcov mocha
+npx c8 node --test
+```
+
+**Choose c8 if** you run tests on Node.js with a runner that has no coverage of its own, and want something faster and simpler than nyc.
+
+### 3.5 Node.js built-in test runner coverage
+
+Node.js has its own test runner (`node --test`) and can collect coverage without any package:
+
+```
+node --test --experimental-test-coverage
+```
+
+It prints a coverage summary after the tests, and can write an `lcov` file with `--test-reporter=lcov --test-reporter-destination=lcov.info`. You can ignore lines with `/* node:coverage ignore next */` comments. The feature is still marked **experimental** in the Node.js documentation, so pin your Node.js version in CI if you rely on it.
+
+### 3.6 Codecov
 
 <ImageContainer
   alt="codecov code coverage tool screenshot"
@@ -257,60 +275,35 @@ For more detailed instructions and advanced usage, you can refer to the [JS Cove
   height={1130}
 />{" "}
 
-#### 3.4.1 Overview of CodeCov
+#### 3.6.1 Overview of Codecov
 
-CodeCov is a highly integrated tool that provides code coverage metrics to help developers write better code. It can be used with any testing framework, CI/CD service, and supports over 30 languages. CodeCov makes it easy to implement code coverage to your development workflow, providing team and repository reporting, pull request comments, and status checks.
+Codecov (owned by Sentry) does not measure coverage itself. It collects the reports produced by the tools above in your CI, then shows coverage on every pull request: a comment with the coverage change, status checks, and patch coverage (how much of the new code is tested). It works with GitHub, GitLab and Bitbucket.
 
-#### 3.4.2 Features of CodeCov
+#### 3.6.2 Codecov pricing
 
-- CodeCov supports over 30 languages and can be used with any CI/CD service.
-- It provides features like team management, repository reporting, pull request comments, and status checks.
-- CodeCov offers a browser extension that overlays coverage reports on GitHub.
-- It provides a variety of graphs and reports to visualize coverage data.
+Codecov's [pricing page](https://about.codecov.io/pricing/) lists four plans:
 
-#### 3.4.3 Pros and Cons of CodeCov
+- **Developer**: free, 1 user, unlimited public repositories.
+- **Team**: $5 per user per month ($4 billed annually), up to 10 users.
+- **Pro**: $12 per user per month.
+- **Enterprise**: custom pricing.
 
-_👍 Pros:_
+#### 3.6.3 How to use Codecov
 
-- CodeCov is highly integrated and flexible, making it a good choice for teams using CI/CD services.
-- It provides detailed reports and visualizations, helping you understand your coverage data at a glance.
-- CodeCov supports a wide range of languages, making it a versatile tool for multi-language projects.
+Sign in with your Git provider and add your repository. Generate an `lcov` report with your coverage tool, then upload it from your CI with the Codecov CLI or the official GitHub Action. See the [Codecov documentation](https://docs.codecov.com/docs) for the setup of each CI.
 
-_👎 Cons:_
+### 3.7 What about JS Coverage (jscoverage)?
 
-- CodeCov is a paid tool, although it offers a free tier for open-source projects. The cost could be a barrier for some teams.
-- The setup process can be complex compared to some other tools.
+The `jscoverage` package was one of the first JavaScript coverage tools, but its last release dates from 2015. It does not support modern JavaScript or TypeScript, so use one of the tools above instead.
 
-#### 3.4.4 How to Use CodeCov for Code Coverage
+## 4. Which JavaScript code coverage tool should you choose?
 
-To use CodeCov for code coverage, you need to sign up for a CodeCov account and add your repository. Once your repository is connected, you can add a CodeCov step to your CI/CD pipeline to upload your coverage reports. CodeCov will process the reports and provide you with detailed coverage metrics.
+- **You use Vitest**: use its built-in coverage with the default `v8` provider.
+- **You use Jest**: run `jest --coverage`. Keep the default Istanbul instrumentation, or try `coverageProvider: "v8"` if coverage slows down your tests.
+- **You use Mocha, AVA or tap**: use nyc for the most mature option, or c8 for faster native coverage.
+- **You use the Node.js test runner**: try `--experimental-test-coverage`, or use c8 if you need a stable tool.
+- **You want coverage on every pull request**: add Codecov (or a similar service) on top of any of these tools.
 
-For more detailed instructions and advanced usage, you can refer to the [CodeCov documentation](https://docs.codecov.com/docs).
-
-## 4. Comparison of the Tools
-
-### 4.1 Comparison Table: Istanbul vs Jest vs JS Coverage vs CodeCov
-
-| Feature                             | Istanbul | Jest   | JS Coverage | CodeCov                                                     |
-| ----------------------------------- | -------- | ------ | ----------- | ----------------------------------------------------------- |
-| **Ease of Use**                     | 🟢       | 🟢     | 🟡          | 🟢                                                          |
-| **Detailed Reporting**              | ✔️       | ✔️     | ✔️          | ✔️                                                          |
-| **Performance**                     | 🟢       | 🟡     | 🟢          | 🟢                                                          |
-| **Community Support**               | 🟢       | 🟢     | ❌          | 🟢                                                          |
-| **CI/CD Integration**               | ✔️       | ✔️     | ❌          | ✔️                                                          |
-| **Latest Update (as of July 2023)** | Recent   | Recent | Not recent  | Recent                                                      |
-| **Pricing**                         | Free     | Free   | Free        | Free/Open Source, $10/user/month (Pro), Custom (Enterprise) |
-
-### 4.2 Which Tool to Choose and When?
-
-The choice of a code coverage tool depends largely on your specific needs and the nature of your project. Here are some general recommendations:
-
-- **Istanbul**: Choose Istanbul if you want a high-performance tool with detailed reporting and strong community support. It's a good choice for larger projects or projects where performance is a key concern.
-
-- **Jest**: Jest is a great choice if you're looking for a comprehensive testing solution that includes code coverage. It's easy to use and has strong community support, but it might be slower than some other tools.
-
-- **JS Coverage**: JS Coverage could be the right tool for you if you're working with a smaller project or if you prefer a tool that's easy to use and flexible. However, keep in mind that it hasn't been updated recently and doesn't have as much community support as the other tools.
-
-- **CodeCov**: CodeCov is a great option if you're looking for a tool that integrates well with CI/CD systems. It's easy to use, provides detailed reporting, and has strong community support.
+Coverage is most useful when reviewers see it next to the code they are reviewing. For more ways to make reviews faster and more thorough, read our [code review best practices and tools](https://axolo.co/blog/p/code-review-best-practices-and-tools-2025).
 
 <CTABanner type="try" />
