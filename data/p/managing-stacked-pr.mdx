@@ -1,15 +1,17 @@
 ---
-title: "Managing Stacked PRs - Using Stacked Pull Requests in GitHub"
+title: "GitHub Stacked PRs: Native Stacks, gh stack and the Best Tools"
 date: "2023-11-10"
-lastmod: "2024-12-18"
+lastmod: "2026-11-05"
 tags: ["Stacked PRs", "Code Review", "GitHub", "Development Tools"]
 draft: false
-summary: "A detailed guide on managing Stacked PRs for efficient code reviews, featuring popular tools like Ghstack, Git Town, Sapling, Spr, and Graphite."
+summary: "Stacked PRs split a large change into small pull requests that build on each other. GitHub now supports them natively with gh stack: how to create a stack, merge it, and which tools to use on GitHub and GitLab."
 image: "/blog/static/images/general/Managing Stacked PRs.jpg"
 authors: ["sydney"]
 ---
 
-Managing [code reviews](https://axolo.co) efficiently can make or break your team's productivity. Enter **GitHub stacked PRs**—a powerful workflow that breaks down complex changes into smaller, manageable pieces. By leveraging **stacked pull requests**, your team can streamline collaboration, improve code quality, and adhere to best practices.
+**Stacked PRs** are small pull requests that build on each other: the first one targets `main`, and each next one targets the branch of the pull request below it. Since October 2026, **GitHub supports stacked pull requests natively** on every github.com plan: install the `gh stack` extension for GitHub CLI, run `gh stack init`, add one branch per layer with `gh stack add`, then `gh stack submit` to open and link the pull requests.
+
+Managing [code reviews](https://axolo.co) efficiently can make or break your team's productivity, and stacking is one of the best ways to keep pull requests small. By leveraging **stacked pull requests**, your team can streamline collaboration, improve code quality, and adhere to best practices.
 
 Whether you're working on a large refactor or a multi-step feature, **PR stacking** ensures that each step is reviewed independently, reducing bottlenecks and making it easier to identify potential issues early. But how can your team get the most out of this workflow? From understanding **how to create a PR in GitHub** to integrating tools like Axolo, we’ll guide you through the strategies and techniques to implement **git stacked PRs** effectively.
 
@@ -43,7 +45,7 @@ Throughout this guide, you’ll discover:
 
 A Stacked Pull Request (PR) is a development workflow strategy where multiple smaller PRs are opened in a specific sequence, each one building upon the previous. This approach allows for easier code review, as each PR contains a manageable chunk of changes, making it simpler for reviewers to understand the context and impact. Stacked PRs are particularly useful in larger projects where a single PR could become overwhelming to review.
 
-If you'd likre to learn more about PRs, I invite you to read [GitHub pull request workflow](https://axolo.co/blog/p/why-your-pull-requests-are-taking-forever).
+If you'd like to learn more about PRs, I invite you to read [GitHub pull request workflow](https://axolo.co/blog/p/why-your-pull-requests-are-taking-forever).
 
 ### When and why should you use stacked PRs?
 
@@ -114,7 +116,7 @@ Stacked PRs align well with the best practices of having small, manageable chang
 
 By aligning with the principle of making small, focused changes, Stacked PRs inherently incorporate these best practices into your development workflow.
 
-## Stacked PR in GitHub: How to Manage Stacked PRs
+## How to create stacked PRs on GitHub
 
 <ImageContainer
   alt="managing-stacked-pr"
@@ -125,54 +127,72 @@ By aligning with the principle of making small, focused changes, Stacked PRs inh
   height={1024}
 />{" "}
 
-Managing Stacked PRs in GitHub can be a game-changer for your development workflow. According to a [LogRocket blog post](https://blog.logrocket.com/using-stacked-pull-requests-in-github/), here's a simplified guide on how to do it properly:
+You have two options: GitHub's native stacks, or plain Git branches.
 
-### Creating a Stacked PR
+### Option 1: native stacked pull requests with gh stack
 
-1. **Checkout the Base Branch**: Start by checking out the base branch, usually `master` or `develop`.
+GitHub made stacked pull requests [generally available on October 6, 2026](https://github.blog/changelog/2026-10-06-stacked-pull-requests-generally-available/), on all github.com plans. Stacks are created with the `gh stack` extension for GitHub CLI ([quickstart](https://docs.github.com/en/pull-requests/get-started/stacked-prs-quickstart)):
+
+```bash
+# Install the extension once
+gh extension install github/gh-stack
+
+# Start a stack and commit the first layer
+gh stack init
+git add .
+git commit -m "Add the database migration"
+
+# Add the next layer on top of the stack
+gh stack add api-endpoint
+git add .
+git commit -m "Add the API endpoint"
+
+# Push every branch, then open and link the pull requests
+gh stack push
+gh stack submit
+
+# See the stack, its pull requests and their status
+gh stack view
+```
+
+How merging works, according to [GitHub's documentation](https://docs.github.com/en/pull-requests/get-started/about-stacked-prs):
+
+- Each pull request shows only its own layer's diff and is reviewed on its own.
+- Pull requests merge **from the bottom up**. Merging a pull request in the middle merges everything below it; the ones above stay open and are retargeted automatically.
+- Merge commit, squash and rebase are supported, and stacks work with the merge queue.
+- Branch protection rules, such as CODEOWNERS approvals, apply to every pull request in the stack.
+
+Limits to know: all branches must be in the same repository (no cross-fork stacks), GitHub Desktop does not support stacks, and GitHub Enterprise Server will get the feature in an upcoming release.
+
+### Option 2: stack pull requests with plain Git
+
+Without the extension, you can still stack by hand: each pull request uses the branch below it as its base.
+
+1. **Create the first branch** from `main`, commit, push, and open a pull request against `main`.
    ```bash
-   git checkout master
+   git checkout main
    git checkout -b feature-branch
-   ```
-2. **Make Changes and Commit**: Make your changes and commit them.
-   ```bash
-   echo "Hello, World!" > hello.txt
-   git add hello.txt
-   git commit -m 'Add hello.txt'
-   ```
-3. **Push and Create PR**: Push the changes and create a PR against the base branch.
-   ```bash
+   git commit -am "Add the database migration"
    git push -u origin feature-branch
    ```
-
-### Creating a Dependent PR
-
-1. **Checkout the First Branch**: Make sure you are on the first branch.
+2. **Create the dependent branch** from the first one, push it, and open a pull request whose **base is `feature-branch`**, not `main`.
    ```bash
-   git checkout feature-branch
    git checkout -b feature-branch-2
-   ```
-2. **Make Changes and Commit**: Make additional changes and commit them.
-   ```bash
-   echo "Hello, again!" > hello2.txt
-   git add hello2.txt
-   git commit -m 'Add hello2.txt'
-   ```
-3. **Push and Create PR**: Push the changes and create a PR. This PR will be dependent on the first one.
-   ```bash
+   git commit -am "Add the API endpoint"
    git push -u origin feature-branch-2
+   gh pr create --base feature-branch
    ```
+3. **Merge from the bottom up.** When the first pull request merges, retarget the next one to `main` and rebase it if needed. This manual rebasing is exactly what `gh stack` and the tools below automate.
 
-### Merging Stacked PRs
+## How to create stacked merge requests on GitLab
 
-- **Direct Merge**: Use the "Merge" option to maintain the commit history.
+GitLab calls this workflow **stacked diffs**. The GitLab CLI has an experimental `glab stack` command ([documentation](https://docs.gitlab.com/user/project/merge_requests/stacked_diffs/)): `glab stack create` starts a stack, `glab stack save` adds a change, and `glab stack sync` pushes the branches and opens one merge request per change, each targeting the branch of the previous one. GitLab marks it as experimental and not ready for production use. Git Town, listed below, also stacks branches on GitLab.
 
 ## Best practices for reviewing stacked PRs
 
-- **Labeling**: Label the PR as 'Stacked' to avoid confusion.
-- **Order of Merging**: Merge the base PR first to simplify subsequent merges.
-
-By following these simplified steps, you can manage Stacked PRs more effectively, making your development process more organized and efficient.
+- **Keep each layer small**: one logical change per pull request, with a description that says what it depends on.
+- **Review from the bottom up**: the lowest pull request merges first, so review it first.
+- **Label manual stacks**: without native stacks, label the pull requests as stacked to avoid an early merge into `main`.
 
 ## Benefits of Stacked PRs
 
@@ -227,7 +247,7 @@ Debugging complex code can be a nightmare, especially when multiple changes are 
 
 Debugging is an essential part of the development process, and **git stacked PRs** make it easier to maintain a clean and stable codebase. Whether you're working on a large project or starting out, using **stacked PRs** simplifies error resolution and ensures a smoother workflow.
 
-## Stacked PR Tools Tools available for managing Stacked PRs
+## Stacked PR tools for GitHub and GitLab
 
 Managing **GitHub stacked PRs** effectively requires the right tools to keep workflows streamlined and efficient. As development teams increasingly adopt **stacking** to break down large tasks into smaller, focused **stacked pull requests**, tools that simplify branch management, code review, and collaboration have become essential.
 
@@ -241,13 +261,18 @@ With features like seamless GitHub integration, intuitive UIs, and advanced CLI 
 
 Below is a list of popular tools that make **PR stacking** and managing **GitHub stacked pull requests** easier, more efficient, and more accessible for development teams of all sizes:
 
-| Tool                                                                          | Features                                                                                                                        |
-| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| <NoFollowLink url="https://github.com/ezyang/ghstack">ghstack </NoFollowLink> | - Submit stacks of diffs as separate PRs<br/>- Supports Python 3.8+<br/>- Easy setup with GitHub Personal Access Tokens         |
-| <NoFollowLink url="https://www.git-town.com/">Git Town</NoFollowLink>         | - High-level CLI for Git<br/>- Supports common branching models like GitHub Flow, Git Flow<br/>- Simplifies Git commands        |
-| <NoFollowLink url="https://sapling-scm.com/">Sapling </NoFollowLink>          | - Intuitive UI<br/>- Git integration<br/>- Methods for stacking, iterating, and submitting work                                 |
-| <NoFollowLink url="https://ejoffe.github.io/spr/">Spr </NoFollowLink>         | - Client-side script integrated into Git<br/>- Simplifies branch and PR management<br/>- No special server-side software needed |
-| <NoFollowLink url="https://graphite.dev/">Graphite.dev</NoFollowLink>         | - GitHub sync<br/>- Pull request inbox<br/>- CLI with stacking & simplified commands<br/>- VS Code extension                    |
+| Tool | What it is | Works with | Price | Status (Nov. 2026) |
+| --- | --- | --- | --- | --- |
+| <NoFollowLink url="https://docs.github.com/en/pull-requests/get-started/stacked-prs-quickstart">gh stack</NoFollowLink> | GitHub's official CLI extension for native stacks | GitHub.com (GitHub Enterprise Server announced) | Free | Generally available since Oct. 2026 |
+| <NoFollowLink url="https://graphite.com/">Graphite</NoFollowLink> | Stacking CLI, review inbox, merge queue and AI review | GitHub, GitHub Enterprise Server | Free Hobby plan; paid plans from $20 per user/month (billed annually) | Active; agreed to be acquired by Cursor in Dec. 2025 |
+| <NoFollowLink url="https://www.git-town.com/">Git Town</NoFollowLink> | Open-source Git CLI with support for stacked changes | GitHub, GitLab, Bitbucket, Gitea, Forgejo | Free | Active |
+| <NoFollowLink url="https://sapling-scm.com/">Sapling</NoFollowLink> | Meta's source control client, with stacks submitted as pull requests | GitHub | Free | Active |
+| <NoFollowLink url="https://github.com/ezyang/ghstack">ghstack</NoFollowLink> | Python CLI that submits each commit of a stack as its own pull request | GitHub | Free | Maintained |
+| <NoFollowLink url="https://github.com/ejoffe/spr">spr</NoFollowLink> | Go CLI that turns each commit into a pull request | GitHub | Free | Maintained |
+| <NoFollowLink url="https://github.com/aviator-co/av">av</NoFollowLink> | Aviator's CLI for stacked pull requests | GitHub | Free CLI | Active |
+| <NoFollowLink url="https://docs.gitlab.com/user/project/merge_requests/stacked_diffs/">glab stack</NoFollowLink> | GitLab CLI command for stacked diffs | GitLab | Free | Experimental |
+
+Which one to pick? On GitHub.com, start with the native `gh stack`: it is free and the stack shows up in GitHub's own pull request pages. Graphite adds a review inbox, merge queue and AI review on top. On GitLab, use Git Town, or `glab stack` if you accept an experimental tool.
 
 <CTABanner type="try" />
 
@@ -257,7 +282,7 @@ Adopting a stacking workflow for your team can significantly enhance collaborati
 
 #### When Should You Create a Stacked PR?
 
-Understanding when to create a **stacked PR** is essential for building an efficient workflow. Here are common scenarios where **Pstacking** can be highly beneficial:
+Understanding when to create a **stacked PR** is essential for building an efficient workflow. Here are common scenarios where **PR stacking** can be highly beneficial:
 
 1. **Large Features or Refactoring**: When working on a feature that involves multiple components or layers, **stacked pull requests** allow your team to focus on incremental changes rather than reviewing one overwhelming PR.
 2. **Collaborative Efforts**: If multiple developers are contributing to interconnected changes, using **stacked PRs** ensures each piece is reviewed and merged in sequence, avoiding confusion or merge conflicts.
@@ -313,7 +338,7 @@ Axolo is a **GitHub and GitLab Slack bot** designed to enhance code reviews by c
 - **Daily Summaries**: Keep your team informed with daily PR recaps.
 - **CI/CD Integration**: Monitor branch conflicts, pull request checks, and deployments directly in Slack.
 
-Stacked PRs offer a more organized and efficient approach to code reviews, especially for larger projects. They align well with best practices for small, manageable changes, making the review process quicker and more thorough. Various tools like ghstack, Git Town, Sapling, spr, and Graphite can further streamline this workflow, each offering unique features to manage your Stacked PRs effectively.
+Stacked PRs offer a more organized and efficient approach to code reviews, especially for larger projects. They align well with best practices for small, manageable changes, making the review process quicker and more thorough. GitHub's native stacks and tools like Graphite, Git Town, Sapling, ghstack and spr can further streamline this workflow.
 
 By incorporating Stacked PRs and these tools into your development process, you can significantly improve code quality, reduce review time, and ultimately, deliver better software.
 

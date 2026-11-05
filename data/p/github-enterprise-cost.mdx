@@ -1,24 +1,44 @@
 ---
-title: "Understanding GitHub Enterprise Cost: A Comprehensive Guide to GitHub Enterprise Server Pricing"
+title: "GitHub Enterprise Pricing (2026): Cloud vs Server Costs"
 date: "2023-10-12"
-lastmod: "2025-02-17"
+lastmod: "2026-11-05"
 tags: ["github", "enterprise"]
 draft: false
-summary: "Understanding the cost structure of GitHub Enterprise is crucial for businesses that are scaling their development operations. GitHub Enterprise offers a range of features designed to meet the needs of larger organizations, including enhanced security and more robust collaboration options. This article aims to provide a comprehensive guide to GitHub Enterprise Server pricing, breaking down the various factors that contribute to the overall cost. "
+summary: "GitHub Enterprise costs $21 per user per month in 2026, for Cloud and Server alike. See what it includes, how users are counted, add-on prices, the free trial, and the hidden costs of self-hosting."
 image: "/blog/static/images/github-enterprise/github-enterprise-cost.jpg"
 ---
 
-Understanding the cost structure of GitHub Enterprise is crucial for businesses that are scaling their development operations. GitHub Enterprise offers a range of features designed to meet the needs of larger organizations, including enhanced security and more robust collaboration options. However, these features come at a price, and it's important for decision-makers to have a clear understanding of what they're investing in.
+**GitHub Enterprise costs $21 per user per month** (prices checked on [github.com/pricing](https://github.com/pricing) on November 5, 2026). The same license covers GitHub Enterprise Cloud and GitHub Enterprise Server, and GitHub now includes access to GitHub Copilot in the Enterprise plan.
 
-This article aims to provide a comprehensive guide to GitHub Enterprise Server pricing, breaking down the various factors that contribute to the overall cost. Whether you're a CTO, a procurement manager, or a team lead, this guide will offer the insights you need to make an informed decision.
+The license is only part of the bill: security add-ons, extra Actions minutes, storage and, for Enterprise Server, your own infrastructure and maintenance add up. This guide covers each of them.
 
 <TOCInline toc={props.toc} toHeading={2} asDisclosure />
 
+## GitHub pricing in 2026: Free vs Team vs Enterprise
+
+| Plan              | Price                  | Key inclusions                                                                                                                                                    |
+| ----------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub Free       | $0                     | Unlimited public and private repositories, 2,000 Actions minutes/month, 500 MB Packages storage, community support                                                |
+| GitHub Team       | $4 per user per month  | Required reviewers, code owners, draft pull requests, repository rules, 3,000 Actions minutes/month, 2 GB Packages storage, web-based support                     |
+| GitHub Enterprise | $21 per user per month | Copilot access, SAML SSO, SCIM, audit log API, data residency, GitHub Connect, SOC 1 / SOC 2 Type 2 reports, 50,000 Actions minutes/month, 50 GB Packages storage |
+
+Source: [GitHub pricing page](https://github.com/pricing), checked November 5, 2026. GitHub does not publish a separate annual price on that page.
+
+### GitHub add-on prices
+
+| Add-on                   | Price                                                      |
+| ------------------------ | ---------------------------------------------------------- |
+| GitHub Secret Protection | $19 per active committer per month                         |
+| GitHub Code Security     | $30 per active committer per month                         |
+| GitHub Codespaces        | From $0.18 per hour of compute and $0.07 per GB of storage |
+| Git Large File Storage   | $5 per month for 50 GB of bandwidth and 50 GB of storage   |
+| Premium support          | On request (Enterprise only)                               |
+
+Sources: [GitHub security plans](https://github.com/security/plans) and [GitHub pricing](https://github.com/pricing). Secret Protection and Code Security are available on Team and Enterprise; together they form GitHub Advanced Security.
+
 ## What is GitHub Enterprise?
 
-GitHub Enterprise is an advanced version of GitHub designed to meet the specific needs of larger organizations and enterprises. Unlike the basic GitHub, which is primarily geared towards individual developers and small teams, GitHub Enterprise provides enhanced features such as advanced security protocols, more granular access controls, and options for on-premises or cloud-based hosting.
-
-These features are tailored to organizations that require a higher level of control and scalability for their code repositories, facilitating more efficient collaboration and governance across larger, more complex teams.
+GitHub Enterprise is the GitHub plan for larger organizations. On top of everything in Team, it adds enterprise-grade identity and compliance (SAML single sign-on, SCIM provisioning, audit log API, data residency, compliance reports), more Actions minutes and storage, and the choice between a GitHub-hosted (Cloud) or self-hosted (Server) deployment.
 
 ## GitHub Enterprise Cloud vs GitHub Enterprise Server
 
@@ -31,20 +51,33 @@ These features are tailored to organizations that require a higher level of cont
   height={2402}
 />
 
-When it comes to GitHub Enterprise, organizations have two main options: GitHub Enterprise Cloud and GitHub Enterprise Server. Each has its own set of features and pricing models, designed to suit different organizational needs.
+Both deployments are part of the same GitHub Enterprise plan, at the same per-user price.
 
-### Features
+- **GitHub Enterprise Cloud** is hosted and updated by GitHub. You pay the license, plus any usage beyond the included Actions minutes and storage.
+- **GitHub Enterprise Server** is a virtual appliance you run on your own servers or cloud account (AWS, Azure, Google Cloud, VMware…). You pay the same license, plus the infrastructure, backups and the time of the administrators who keep it up to date. See the [Azure installation walkthrough](#bonus-how-to-set-up-github-enterprise-server-on-azure-for-dummys) at the end of this article.
 
-- **GitHub Enterprise Cloud**: Primarily hosted on GitHub's infrastructure, this option provides automatic updates and is managed by GitHub itself. It offers features like automated workflows, unlimited private repositories, and advanced auditing capabilities.
-- **GitHub Enterprise Server**: This is an on-premises solution that gives organizations full control over their GitHub environment. It includes similar features to the Cloud version but adds the ability for more customized configurations and integrations. Discover the advantages of GitHub Enterprise Server in our comprehensive guide on [How to Set Up GitHub Enterprise Server on Azure](https://axolo.co/blog/p/github-enterprise-cost).
+### How GitHub counts Enterprise users
 
-### Pricing
+GitHub bills **unique users** across your deployments. Someone who works in several Cloud organizations and Server instances consumes a single license, as long as license usage is synced between Server and Cloud ([GitHub Docs](https://docs.github.com/en/billing/concepts/enterprise-billing/combined-enterprise-use)).
 
-- **GitHub Enterprise Cloud**: Pricing is generally based on the number of users and starts at a specific rate per user per month. Additional costs may include extra storage or data transfer fees.
+There are two billing models ([GitHub Docs](https://docs.github.com/en/billing/concepts/enterprise-billing/billing-for-enterprises)):
 
-- **GitHub Enterprise Server**: Pricing for this option is more complex and can include costs for licenses, storage, and additional features or integrations. It often requires a one-time setup fee and annual maintenance costs.
+- **Usage-based billing:** you pay every month for the licenses actually consumed, instead of a fixed number of seats ([details](https://docs.github.com/en/billing/concepts/enterprise-billing/usage-based-licenses)).
+- **Volume or subscription agreement:** a fixed bundle of licenses covering Cloud and Server, set up with GitHub Sales.
 
-Understanding the differences between these two options is essential for making an informed decision on which is best suited for your organization's needs.
+## Is GitHub Enterprise free? Trials
+
+GitHub Enterprise is not free, but you can try it:
+
+- **GitHub Enterprise Cloud:** a 30-day free trial. GitHub's pricing page describes it as one trial that includes GitHub Enterprise, Copilot and Advanced Security ([trial docs](https://docs.github.com/en/enterprise-cloud@latest/enterprise-onboarding/getting-started-with-your-enterprise/setting-up-a-trial-of-github-enterprise)).
+- **GitHub Enterprise Server:** a 45-day evaluation of the virtual appliance; contact GitHub Sales for an extension ([trial docs](https://docs.github.com/en/enterprise-cloud@latest/admin/overview/setting-up-a-trial-of-github-enterprise-server)).
+
+## GitHub vs GitHub Enterprise: which one do you need?
+
+- **GitHub Free or Team** is enough for most small and mid-size teams: private repositories, pull request reviews, code owners and Actions are all there.
+- **GitHub Enterprise** is worth $21 per user when you need SSO and SCIM, audit logs, data residency, compliance reports, more Actions minutes, Copilot for everyone, or a self-hosted GitHub Enterprise Server.
+
+At Axolo, many of our customers run GitHub Enterprise Cloud or Server. Axolo works with both ([GitHub Enterprise Server setup](https://axolo.co/docs/gettingstarted/installation-github-enterprise-server)) and opens one Slack channel per pull request.
 
 <CTABanner type="try" />
 
@@ -66,21 +99,11 @@ The overall cost of GitHub Enterprise is influenced by several factors that go b
 
 Understanding these factors will help you get a clearer picture of the total cost of ownership for GitHub Enterprise, enabling you to plan your budget more effectively.
 
-## GitHub Enterprise Server Pricing
+## GitHub Enterprise Server pricing
 
-The GitHub Enterprise Server pricing start at $21 per seat per month. But it exists a variety of add-ons you might be interested in that will increase the price.
+GitHub Enterprise Server uses the same GitHub Enterprise license: $21 per user per month. What changes is everything around it: the servers or cloud instances that run the appliance, storage, backups, and the time your team spends on upgrades and monitoring.
 
-Add-ons include:
-
-- GitHub Copilot,
-- GitHub Advanced Security,
-- GitHub Insights,
-- GitHub Packages,
-- GitHub Actions,
-- GitHub Codespace,
-- GitHub Enterprise Support.
-
-The pricing for GitHub Enterprise Self-hosted is similar to the GitHub Enterprise Server pricing. The main difference is that you will have to pay for the infrastructure and maintenance of the server. You can find more details and all features <NoFollowLink url="https://github.com/pricing">on the dedicated pricing page</NoFollowLink> and GitHub also offers <NoFollowLink url="https://github.com/pricing/calculator">a pricing calculator.</NoFollowLink>
+Add-ons are billed on top of the license, for example GitHub Secret Protection ($19 per active committer per month), GitHub Code Security ($30 per active committer per month) and Premium support. You can find all features <NoFollowLink url="https://github.com/pricing">on the dedicated pricing page</NoFollowLink>, and GitHub also offers <NoFollowLink url="https://github.com/pricing/calculator">a pricing calculator</NoFollowLink>.
 
 <UserReview />
 
@@ -124,11 +147,11 @@ Each tool has its own set of features and capabilities, and the right choice wil
 
 ### What is the starting price for GitHub Enterprise?
 
-The starting price for GitHub Enterprise varies depending on whether you opt for the Cloud or Server version, as well as the number of users. It's best to consult GitHub's official pricing page for the most current information.
+$21 per user per month, for both GitHub Enterprise Cloud and GitHub Enterprise Server (GitHub pricing page, November 2026).
 
 ### How is pricing determined?
 
-Pricing for GitHub Enterprise is primarily based on the number of users, storage needs, and any additional features or integrations you may require. Both GitHub Enterprise Cloud and Server have their own pricing models that can be scaled to fit your needs.
+GitHub bills the number of unique users who consume a license across Cloud and Server, either monthly (usage-based billing) or through a volume agreement. Add-ons, extra Actions minutes and storage are billed on top.
 
 ### Are there any hidden costs?
 
@@ -140,7 +163,7 @@ Yes, it's possible to switch between the two, but be aware that this may involve
 
 ### Is there a free trial available?
 
-GitHub Enterprise typically offers a free trial period for you to evaluate its features. The duration and terms of the free trial can vary, so it's advisable to check GitHub's official site for details.
+Yes. GitHub Enterprise Cloud has a 30-day free trial, and GitHub Enterprise Server has a 45-day evaluation.
 
 ## BONUS: How to set up GitHub Enterprise Server on Azure (for dummy's)
 
