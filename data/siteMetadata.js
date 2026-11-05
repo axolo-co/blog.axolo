@@ -18,7 +18,7 @@ const siteMetadata = {
   theme: "system", // system, dark or light
   siteRepo: "https://github.com/timlrx/tailwind-nextjs-starter-blog",
   logo: "/blog/static/images/logo_axolo.png",
-  siteLogo: "/blog/static/images/logo_axolo.png",
+  siteLogo: "/static/images/axolo_face_square.png",
   siteUrl: "https://axolo.co/blog",
   image: "/blog/static/images/logo_axolo.png",
   socialBanner: "/static/images/twitter_cover.png",
