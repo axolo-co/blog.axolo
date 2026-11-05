@@ -32,7 +32,7 @@ The best GitHub Slack integration depends on whether your team needs simple repo
 - [What a GitHub Slack integration does](#what-is-a-github-slack-integration)
 - [Comparison table](#best-github-slack-integrations-compared)
 - [Six tools reviewed](#1-axolo-best-for-pull-request-collaboration-in-slack)
-- [Official app setup](#how-to-set-up-the-official-github-slack-integration)
+- [Connect GitHub to Slack](#how-to-connect-github-to-slack-with-the-official-app)
 - [Decision tree](#how-to-choose-the-right-github-slack-integration)
 - [Use cases](#github-slack-integration-use-cases)
 - [FAQ](#frequently-asked-questions)
@@ -126,7 +126,7 @@ The app has become more capable than many older comparisons suggest. It supports
 
 ### Can you subscribe a whole GitHub organization to Slack?
 
-Not with one documented “subscribe every repository” command. GitHub’s current command format is `/github subscribe owner/repo`, and selecting “All repositories” during app installation grants access rather than creating a channel subscription for every repository. For a few repositories, repeat the command in the appropriate Slack channel. For organization-wide routing across many repositories, use automation or a dedicated tool that maps repositories, teams, and reviewers at scale.
+Not with one documented “subscribe every repository” command. GitHub’s current command format is `/github subscribe owner/repo`, and selecting “All repositories” during app installation grants access rather than creating a channel subscription for every repository. For a few repositories, repeat the command in the appropriate Slack channel. For organization-wide routing across many repositories, use automation or a dedicated tool that maps repositories, teams, and reviewers at scale. Our guide to the [`/github subscribe` command](https://axolo.co/blog/p/Github-4-ways-to-subscribe-to-pull-requests) lists every subscription option.
 
 ## 3. PullNotifier: best for filtered PR notifications in existing Slack channels
 
@@ -160,7 +160,7 @@ PR Chat’s public pages do not currently document advanced reminders, standup r
 
 **Choose PR Chat if** your priority is a lightweight, thread-based PR conversation with comment sync rather than reminders, analytics, or a dedicated channel for every pull request.
 
-## How to set up the official GitHub Slack integration
+## How to connect GitHub to Slack with the official app
 
 1. Install the [GitHub app from the Slack App Directory](https://slack.com/apps/A01BP7R4KNY-github).
 2. Connect your GitHub account when prompted, or run `/github signin` in Slack.
