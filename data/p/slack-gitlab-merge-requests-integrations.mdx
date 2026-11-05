@@ -1,13 +1,15 @@
 ---
-title: "Top 6 Slack GitLab Merge Request Integrations"
+title: "How to Connect GitLab to Slack: 6 Merge Request Integrations"
 date: "2022-01-06"
-lastmod: "2025-02-10"
+lastmod: "2026-11-05"
 tags: ["notification", "gitlab"]
 draft: false
 image: "/blog/static/images/gitlab/top6_gitlab_slack.png"
-summary: "Discover the top 6 Slack integrations for GitLab merge requests that streamline your workflow. We've compared the best Slack and GitLab integrations to help your tech teams be more productive, get real-time updates, and simplify code reviews with these essential tools."
+summary: "How to connect GitLab to Slack, step by step, and 6 GitLab Slack integrations compared for merge request notifications, CI pipeline alerts and self-managed GitLab."
 authors: ["sydney"]
 ---
+
+To connect GitLab to Slack, install a GitLab Slack app and authorize it on both sides: the official GitLab for Slack app posts notifications and runs slash commands, while a [GitLab Slack integration](https://axolo.co/gitlab-slack-integration) like Axolo opens one Slack channel per merge request. Both work with GitLab.com and GitLab self-managed. The steps and a comparison of six options are below.
 
 ## GitLab Merge Request Management
 
@@ -26,7 +28,7 @@ Integrating GitLab with Slack offers a range of features designed to optimize yo
 - **Merge Request Discussions**: Collaborate on code reviews by having the ability to discuss merge requests directly in Slack.
 - **Customized Alerts**: Tailor notifications to your team's needs, ensuring only the right notifications reach out to the right people.
 
-### Work with GitLab Merge Requests
+### How to connect GitLab to Slack
 
 To maximize efficiency, it's essential to integrate GitLab with Slack effectively. Here's how you can connect GitLab to Slack and enhance your merge request workflow:
 
@@ -48,12 +50,12 @@ Our article and table offer a clear overview of each integration's features, adv
 
 | Integration                               | Collaborative (channel per MR) | GitLab CI Slack notification | Standups | Supports Threading | PR Reminders | Pricing             | Note                  |
 | ----------------------------------------- | ------------------------------ | ---------------------------- | -------- | ------------------ | ------------ | ------------------- | --------------------- |
-| Axolo                                     | ✅                             | ✅                           | ✅       | ✅                 | ✅           | 0\$ - 8\$/developer | Best for teams        |
+| Axolo                                     | ✅                             | ✅                           | ✅       | ✅                 | ✅           | 0\$-16\$/seat/month | Best for teams        |
 | CodeDog                                   | 🔴                             | 🔴                           | 🔴       | 🔴                 | ✅           | 18\$/month          |                       |
 | Eleminder                                 | 🔴                             | 🔴                           | 🔴       | 🔴                 | ✅           | Free                |                       |
 | Zapier & Integromat                       | 🔴                             | 🔴                           | 🔴       | 🔴                 | ✅           | 0\$-835\$/Month     |                       |
 | OSS GitLab Slack integration from Nazhryn | 🔴                             | 🔴                           | 🔴       | 🔴                 | ✅           | free                |                       |
-| Official Slack GitLab integration         | 🔴                             | 🔴                           | 🔴       | 🔴                 | ✅           | free                | Support issues mainly |
+| Official Slack GitLab integration         | 🔴                             | ✅                           | 🔴       | 🔴                 | ✅           | free                | Notifications, issues |
 
 Here is a 6 minutes YouTube video recap of this article:
 
@@ -230,17 +232,17 @@ Last updated two years ago. The setup takes a bit of time and can scare away som
 
 ### 6. Official Slack GitLab integration
 
-The official Slack GitLab integration allows you to manage issues, (show, search, move, find, comment, close), deploy environments, and run commands for specific projects.
+The official GitLab for Slack app posts notifications for GitLab events, such as merge requests and pipelines, to Slack channels. It also provides slash commands to create and view issues, run CI/CD jobs and deploy. It works on GitLab.com and GitLab self-managed, where an administrator must first turn it on.
 
-Check out the documentation on <a target="_blank" rel="noopener noreferrer nofollow" href="https://docs.gitlab.com/ee/user/project/integrations/gitlab_slack_application.html">GitLab</a>
+Check out the documentation on <a target="_blank" rel="noopener noreferrer nofollow" href="https://docs.gitlab.com/user/project/integrations/gitlab_slack_application/">GitLab</a>
 
 #### 👍 What we like:
 
-Good to handle issues for a repository from your Slack.
+Free, maintained by GitLab, and good for repository notifications and handling issues from Slack.
 
 #### 👎 What should be improved:
 
-This integration is very limited. It takes a while to set up and you can only handle issues. It’s also hard to remember all the Slash commands and can be lengthy to mention the project every time.
+Notifications land in existing channels, so merge request discussions mix with everything else. It’s also hard to remember all the slash commands, and you must mention the project every time.
 
 ## Choose the Best Slack and GitLab Integrations for Enhanced Productivity and Collaboration
 
@@ -287,7 +289,7 @@ By leveraging tools that integrate GitLab with Slack, teams can streamline their
 
 Getting GitLab notifications on a self-managed instance can be a challenge today. Without these notifications, teams may miss important updates or fail to react quickly to critical issues.
 
-Slack is a popular tool for receiving these notifications in real-time, but setting up this integration can be tricky. In this article, we'll explore two alternative solutions for setting up GitLab Slack notifications for self-managed instances in 2024. Whether you choose to use a third-party tool or manually configure the notifications, we'll guide you through the steps and offer tips and best practices for a successful setup. Let's get started!
+Slack is a popular tool for receiving these notifications in real-time, but setting up this integration can be tricky. In this article, we'll explore two alternative solutions for setting up GitLab Slack notifications for self-managed instances. Whether you choose to use a third-party tool or manually configure the notifications, we'll guide you through the steps and offer tips and best practices for a successful setup. Let's get started!
 
 <ImageContainer
   alt="Photo by Pankaj Pantel on Unsplash"
@@ -326,7 +328,7 @@ If you're interested, here is a [customer testimonial](https://axolo.co/blog/p/i
 
 Here are a few potential cons of using Axolo:
 
-1. **Cost:** Axolo is not a free tool for team with more than 5 developers (it is $10/dev/mo). This may be a con those with budget constraints. But as our latest studies has shown, Axolo help developers save two hours per week on code reviews, which is a huge time saver for teams.
+1. **Cost:** Axolo’s free plan covers up to 50 merge request channels per month; beyond that, paid plans start at $10 per seat per month. This may be a con those with budget constraints. But as our latest studies has shown, Axolo help developers save two hours per week on code reviews, which is a huge time saver for teams.
 
 2. **Dependency on Slack:** As Axolo is a Slack integration, it requires a Slack workspace to function. If your team does not use Slack or prefers to use a different communication tool, Axolo may not be the best fit.
 
