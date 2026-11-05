@@ -33,6 +33,8 @@ export async function getStaticProps({ defaultLocale, locales, locale, params })
   const prev = allPosts[postIndex + 1] || null
   const next = allPosts[postIndex - 1] || null
   const post = await getFileBySlug("p", params.slug.join("/"), otherLocale)
+  // Drafts are not published: answer 404 instead of an empty "Under Construction" page
+  if (post.frontMatter.draft === true) return { notFound: true }
   const authorList = post.frontMatter.authors || ["default"]
   const authorPromise = authorList.map(async (author) => {
     const authorResults = await getFileBySlug("authors", [author], otherLocale)
