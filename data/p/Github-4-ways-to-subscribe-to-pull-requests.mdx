@@ -1,14 +1,34 @@
 ---
-title: "Github: 4 ways to subscribe to pull requests"
+title: "/github subscribe: Get GitHub Pull Requests in Slack, Email & Mobile"
 date: "2022-02-23"
+lastmod: "2026-11-05"
 tags: ["software development"]
 draft: false
-summary: "We've listed 4 different ways you can subscribe to GitHub pull requests notifications: email, mobile, web, and Slack."
+summary: "The exact /github subscribe commands to get GitHub pull request notifications in Slack, for one repo or a whole organization, plus email and mobile setup."
 image: "/blog/static/images/general/Github 4 ways to subscribe to pull requests.jpg"
 endCTA: "DiveIn"
 ---
 
-Here are four different ways you can subscribe to pull requests depending on your preferences:
+**Short answer:** install the official GitHub app for Slack, open the channel that should receive the notifications, and type `/github subscribe owner/repo`. The channel then gets new, merged and "ready for review" pull requests from that repository.
+
+| What you want in the Slack channel                 | Command to type                                                      |
+| -------------------------------------------------- | -------------------------------------------------------------------- |
+| Pull requests (and issues, commits…) from one repo | `/github subscribe owner/repo`                                       |
+| Several repos of your organization                 | `/github subscribe owner/repo1` then `/github subscribe owner/repo2` |
+| Only pull requests, nothing else                   | `/github unsubscribe owner/repo issues commits releases deployments` |
+| Pull request reviews and comments too              | `/github subscribe owner/repo reviews comments`                      |
+| Only pull requests with a given label              | `/github subscribe owner/repo +label:"needs-review"`                 |
+| Stop everything from a repo                        | `/github unsubscribe owner/repo`                                     |
+
+A few things to know before you start:
+
+- **Private repositories:** the GitHub app must have access to the repository. If you installed it on "All repositories", new repos work right away. Otherwise the app asks you to add the repo first.
+- **Private Slack channels:** invite the app first with `/invite @github`.
+- **Defaults:** a new subscription sends `issues`, `pulls`, `commits`, `releases` and `deployments`. Reviews, comments, branches and workflows are off until you add them.
+- **Whole organization:** GitHub's documentation describes subscribing "to an Organization or Repository", but only gives the `owner/repo` syntax. Subscribing repo by repo is the reliable way to cover an organization.
+
+The rest of this article covers the four ways to subscribe to pull requests: email, mobile, the official Slack app, and Axolo.
+
 
 ## ✉️ On your email :
 
@@ -132,7 +152,7 @@ On Slack, create a channel and then type in the command: <br></br>
 
 GitHub should ask you to connect your GitHub account. The last time I did it, they asked for a code to enter.
 
-That's it, now this channel will receive all updates about the pull requests, issues, and comments.
+That's it: this channel now receives new pull requests, issues, commits, releases and deployments from the repository. Use the commands in the table at the top of this article to keep only pull requests, or to add reviews and comments.
 
 <div
   style={{
