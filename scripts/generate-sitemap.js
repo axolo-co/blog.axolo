@@ -20,7 +20,25 @@ const i18nConfig = require("../i18n.json")
 
   const { locales, defaultLocale } = i18nConfig
 
-  const pagesWithLoc = pages
+  // Drafts answer 404, so they must not be listed. Posts get their last update date.
+  const lastmodBySlug = {}
+  const publishedPages = pages.filter((page) => {
+    if (!page.startsWith("data/")) return true
+    const { data } = matter(fs.readFileSync(page, "utf8"))
+    if (data.draft === true) return false
+    const slug = page.replace("data/p/", "").replace(/(\.[a-z]{2})?\.mdx?$/, "")
+    const date = data.lastmod || data.date
+    if (date && !lastmodBySlug[slug])
+      lastmodBySlug[slug] = new Date(date).toISOString().slice(0, 10)
+    return true
+  })
+  const lastmodTag = (path) => {
+    const match = path.match(/\/p\/(.+)$/)
+    const lastmod = match && lastmodBySlug[match[1]]
+    return lastmod ? `<lastmod>${lastmod}</lastmod>` : ""
+  }
+
+  const pagesWithLoc = publishedPages
     .map((page) => {
       if (page.includes("pages")) {
         return locales.map((locale) => [page, locale])
@@ -73,11 +91,7 @@ const i18nConfig = require("../i18n.json")
               .map(([path, loc, alreadyPresent]) => {
                 // @todo: Can you check especially here ?
                 const route = path.includes("/index") ? path.replace("/index", "") : path
-                if (
-                  path.includes(`/404.js`) ||
-                  path.includes(`/p/[...slug].js`) ||
-                  alreadyPresent
-                ) {
+                if (path.endsWith("/404") || path.includes(`/p/[...slug].js`) || alreadyPresent) {
                   // Not sure about the [...slug] condition...
                   return
                 }
@@ -91,26 +105,27 @@ const i18nConfig = require("../i18n.json")
                 if (routeMultiLang.length === 1)
                   return `
                         <url>
-                            <loc>${siteUrl}${route}</loc>
+                            <loc>${siteUrl}${route}</loc>${lastmodTag(route)}
                         </url>
                     `
                 return `
                           <url>
-                              <loc>${siteUrl}${
-                  routeMultiLang.filter(([path, loc]) => (loc === defaultLocale ? path : ""))
-                    .length !== 0
-                    ? routeMultiLang.filter(([path, loc]) =>
-                        loc === defaultLocale ? path : ""
-                      )[0][0]
-                    : routeMultiLang[0][0] // Fallaback in a very particular case where there is two local but not default local
-                }</loc>
+                              <loc>${siteUrl}${(routeMultiLang.filter(([path, loc]) =>
+                  loc === defaultLocale ? path : ""
+                ).length !== 0
+                  ? routeMultiLang.filter(([path, loc]) =>
+                      loc === defaultLocale ? path : ""
+                    )[0][0]
+                  : routeMultiLang[0][0]
+                ) // Fallaback in a very particular case where there is two local but not default local
+                  .replace(/\/index$/, "")}</loc>${lastmodTag(route)}
                   ${routeMultiLang
                     .map(
                       ([xe, xloc]) =>
                         `                               <xhtml:link 
                                rel="alternate"
                                hreflang="${xloc}"
-                               href="${siteUrl}${xe}"/>
+                               href="${siteUrl}${xe.replace(/\/index$/, "")}"/>
                                `
                     )
                     .join("")}
