@@ -81,10 +81,7 @@ const CommonSEO = ({ title, description, ogType, ogImage, twImage, availableLoca
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:type" content={ogType} />
       {/* <meta property="og:site_name" content={siteMetadata.title} /> */}
-      <meta
-        property="og:site_name"
-        content={siteMetadata.title[router.locale] | "Axolo - GitHub Slack Integration blog"}
-      />
+      <meta property="og:site_name" content="Axolo Blog" />
       <meta property="og:description" content={description} />
       <meta property="og:title" content={title} />
       {ogImage.constructor.name === "Array" ? (
@@ -206,7 +203,7 @@ export const BlogSEO = ({
       "@type": "WebPage",
       "@id": url,
     },
-    headline: metaTitle,
+    headline: title,
     image: featuredImages,
     datePublished: publishedAt,
     dateModified: modifiedAt,

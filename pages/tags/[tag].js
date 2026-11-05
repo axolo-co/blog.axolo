@@ -1,5 +1,4 @@
 import { TagSEO } from "@/components/SEO"
-import siteMetadata from "@/data/siteMetadata"
 import ListLayout from "@/layouts/ListLayout"
 import generateRss from "@/lib/generate-rss"
 import { getAllFilesFrontMatter } from "@/lib/mdx"
@@ -91,8 +90,8 @@ export default function Tag({
   return (
     <>
       <TagSEO
-        title={`${tag} - ${siteMetadata.title[locale]}`}
-        description={`${tag} tags - ${siteMetadata.title[locale]}`}
+        title={`${title} articles | Axolo Blog`}
+        description={`Axolo blog articles about ${tag}: pull requests, code review and engineering team practices.`}
         availableLocales={availableLocales}
       />
       <ListLayout

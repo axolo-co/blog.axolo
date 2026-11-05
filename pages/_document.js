@@ -29,12 +29,7 @@ class MyDocument extends Document {
           />
           <meta name="msapplication-TileColor" content="#603cba" />
           <meta name="theme-color" content="#0049ff" />
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            href="/blog/static/favicons/feed.xml"
-            itemProp="url"
-          />
+          <link rel="alternate" type="application/rss+xml" href="/blog/feed.xml" itemProp="url" />
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />
