@@ -37,7 +37,7 @@ const G2Banner = ({ isDarkBackground = false }) => {
                 isDarkBackground && "!text-textWhite"
               )}
             >
-              4.9/5 star review on G2
+              4.8/5 star review on G2
             </p>
           </div>
         </a>
